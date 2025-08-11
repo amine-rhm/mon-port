@@ -1,24 +1,68 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard from '../components/ProjectCard';
 
-const ProjectSection = ({ 
-  projects, 
+const ProjectSection = forwardRef(({
+  projects = [],
   theme,
   textColor,
   borderColor,
   cardBg,
   primaryColor,
   secondaryColor
-}) => {
+}, ref) => {
   const [activeFilter, setActiveFilter] = useState('all');
 
+  // CORRECTION: Fonction pour nettoyer les projets en incluant TOUTES les propriétés nécessaires
+  const cleanProjects = useMemo(() => {
+    if (!Array.isArray(projects)) return [];
+    return projects.map((project, index) => {
+      const { jsx, ...rest } = project || {};
+      return {
+        title: rest.title || `Projet ${index + 1}`,
+        description: rest.description || 'Description non disponible',
+        technologies: rest.technologies || [],
+        category: rest.category || 'web',
+        image: rest.image || '/api/placeholder/300/200',
+        github: rest.github || '',
+        figma: rest.figma || '', // CORRECTION: Ajouter figma !
+        demo: rest.demo || '',
+        behance: rest.behance || '',
+        gradientColors: rest.gradientColors || ['#000', '#333'],
+        status: rest.status || '', // CORRECTION: Ajouter status
+        features: rest.features || [], // CORRECTION: Ajouter features
+        client: rest.client || '', // CORRECTION: Ajouter client
+        speciality: rest.speciality || '', // CORRECTION: Ajouter speciality
+        id: rest.id || index,
+      };
+    });
+  }, [projects]);
+
   const filteredProjects = useMemo(() => 
-    projects.filter(p => activeFilter === 'all' || p.category === activeFilter),
-  [projects, activeFilter]);
+    cleanProjects.filter(p => activeFilter === 'all' || p.category === activeFilter),
+  [cleanProjects, activeFilter]);
+
+  if (!Array.isArray(projects)) {
+    return (
+      <motion.section
+        ref={ref}
+        id="projets"
+        style={{
+          padding: '6rem 2rem',
+          background: theme === 'dark' ? '#121212' : '#fafafa',
+          textAlign: 'center'
+        }}
+      >
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h2 style={{ color: textColor }}>Aucun projet disponible</h2>
+        </div>
+      </motion.section>
+    );
+  }
 
   return (
     <motion.section
+      ref={ref}
       id="projets"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -63,6 +107,7 @@ const ProjectSection = ({
           Découvrez une sélection de mes projets récents, allant du développement web au design d'interface
         </motion.p>
         
+        {/* Boutons de filtre */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -76,7 +121,7 @@ const ProjectSection = ({
             marginBottom: '3rem'
           }}
         >
-          {['all', 'web', 'mobile', 'design'].map((category, index) => (
+          {['all', 'web', 'mobile', 'design'].map((category) => (
             <motion.button
               key={category}
               onClick={() => setActiveFilter(category)}
@@ -100,6 +145,7 @@ const ProjectSection = ({
           ))}
         </motion.div>
         
+        {/* Liste des projets */}
         <motion.div
           layout
           style={{
@@ -108,21 +154,34 @@ const ProjectSection = ({
             gap: '2.5rem'
           }}
         >
-          {filteredProjects.map((project, index) => (
-            <ProjectCard 
-              key={`${project.title}-${index}`}
-              project={project}
-              theme={theme}
-              textColor={textColor}
-              borderColor={borderColor}
-              cardBg={cardBg}
-              primaryColor={primaryColor}
-            />
-          ))}
+          {filteredProjects.length > 0 ? (
+            filteredProjects.map((project) => (
+              <ProjectCard 
+                key={project.id}
+                project={project}
+                theme={theme}
+                textColor={textColor}
+                borderColor={borderColor}
+                cardBg={cardBg}
+                primaryColor={primaryColor}
+              />
+            ))
+          ) : (
+            <div style={{ 
+              gridColumn: '1 / -1', 
+              textAlign: 'center', 
+              color: textColor,
+              padding: '2rem'
+            }}>
+              Aucun projet trouvé pour cette catégorie.
+            </div>
+          )}
         </motion.div>
       </div>
     </motion.section>
   );
-};
+});
+
+ProjectSection.displayName = "ProjectSection";
 
 export default ProjectSection;

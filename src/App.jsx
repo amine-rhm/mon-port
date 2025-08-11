@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-
+import { projectsData } from './data/projects';
 // Composants
 import Header from "./components/Header";
 import Cursor from "./components/Cursor";
@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import HomeSection from "./sections/HomeSection";
 import AboutSection from "./sections/AboutSection";
 import ExperienceSection from "./sections/ExperienceSection";
-import ProjectSection from "./sections/ProjectSection";
+import ProjectsSection from './sections/ProjectSection'; // ✅ CORRECTION: ProjectsSection au lieu de ProjectSection
 import SkillsSection from "./sections/SkillsSection";
 import ContactSection from "./sections/ContactSection";
 
@@ -40,7 +40,7 @@ const App = () => {
   const primaryColor = "#3a86ff";
   const secondaryColor = "#ff6b6b";
 
-  // Références pour le défilement - CORRECTION ICI
+  // Références pour le défilement
   const sectionRefs = React.useRef({
     accueil: React.createRef(),
     apropos: React.createRef(),
@@ -50,7 +50,7 @@ const App = () => {
     contact: React.createRef(),
   });
 
-  // Fonction pour scroller vers une section - CORRECTION ICI
+  // Fonction pour scroller vers une section
   const scrollToSection = React.useCallback((section) => {
     const ref = sectionRefs.current[section];
     if (ref && ref.current) {
@@ -60,7 +60,7 @@ const App = () => {
     }
   }, []);
 
-  // Gestion du mouvement du curseur - CORRECTION ICI
+  // Gestion du mouvement du curseur
   React.useEffect(() => {
     const handleMouseMove = (e) => {
       setCursorPosition({ x: e.clientX, y: e.clientY });
@@ -72,9 +72,6 @@ const App = () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
-
-  // Projet vide pour l'exemple
-  const projects = [];
 
   return (
     <motion.div
@@ -130,17 +127,17 @@ const App = () => {
         cardBg={cardBg}
       />
 
-      <ProjectSection
-        projects={projects}
-        ref={sectionRefs.current.projets}
-        theme={theme}
-        textColor={textColor}
-        primaryColor={primaryColor}
-        borderColor={borderColor}
-        cardBg={cardBg}
-        activeFilter={activeFilter}
-        setActiveFilter={setActiveFilter}
-      />
+<ProjectsSection 
+  ref={sectionRefs.current.projets}
+  projects={projectsData}  // ← AJOUTEZ CETTE LIGNE
+  theme={theme}
+  textColor={textColor}
+  primaryColor={primaryColor}
+  secondaryColor={secondaryColor}
+  borderColor={borderColor}
+  cardBg={theme === 'dark' ? '#1a1a2e' : '#fff'} // Optionnel
+/>
+    
 
       <SkillsSection
         ref={sectionRefs.current.competences}
