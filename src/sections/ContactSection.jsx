@@ -140,7 +140,7 @@ const ContactSection = forwardRef((props, ref) => {
                 </div>
                 <div>
                   <h4 style={{ fontWeight: "600", marginBottom: "3px" }}>Email</h4>
-                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>votre-email@exemple.com</p>
+                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>rahmouni.mohamedamine1@gmail.com</p>
                 </div>
               </div>
 
@@ -158,7 +158,7 @@ const ContactSection = forwardRef((props, ref) => {
                 </div>
                 <div>
                   <h4 style={{ fontWeight: "600", marginBottom: "3px" }}>Téléphone</h4>
-                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>+33 X XX XX XX XX</p>
+                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>+33 7 51 11 68 41</p>
                 </div>
               </div>
 
@@ -176,7 +176,7 @@ const ContactSection = forwardRef((props, ref) => {
                 </div>
                 <div>
                   <h4 style={{ fontWeight: "600", marginBottom: "3px" }}>Localisation</h4>
-                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>Votre ville, Pays</p>
+                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>France</p>
                 </div>
               </div>
 
@@ -325,9 +325,9 @@ const ContactSection = forwardRef((props, ref) => {
                       }}
                     >
                       {status === 'success' ? (
-                        '✅ Message envoyé avec succès !'
+                        'Message envoyé avec succès !'
                       ) : (
-                        '❌ Erreur lors de l\'envoi. Réessayez.'
+                        'Erreur lors de l\'envoi. Réessayez.'
                       )}
                     </motion.div>
                   )}
