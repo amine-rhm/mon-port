@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Download, ChevronRight } from 'lucide-react';
 import ph from '../assets/photo.jpg';
+import cvPdf from '../assets/amin (1).pdf'; // Import du CV
 
 // Composant SVG personnalisé pour l'icône de code
 const CodeIcon = (props) => (
@@ -167,6 +168,16 @@ const HomeSection = ({
     "Étudiant en Master MIAGE"
   ];
 
+  // Fonction pour télécharger le CV
+  const downloadCV = () => {
+    const link = document.createElement('a');
+    link.href = cvPdf;
+    link.download = 'CV_Rahmouni_Mohamed_Amine.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   // Animation curseur personnalisé
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -315,7 +326,7 @@ const HomeSection = ({
               style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}
             >
               <motion.button
-                onClick={() => scrollToSection('contact')}
+                onClick={downloadCV}
                 whileHover={{ y: -3, scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
