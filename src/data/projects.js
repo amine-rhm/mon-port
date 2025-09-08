@@ -38,7 +38,7 @@ export const projectsData = [
     description: "Plateforme e-commerce révolutionnaire de rénovation intégrant l'intelligence artificielle et la visualisation 3D. L'IA permet de superposer virtuellement les produits sur une photo de l'utilisateur pour un essayage virtuel, tandis que la 3D offre une visualisation immersive des produits. Cette approche innovante réduit considérablement les retours en permettant aux clients de visualiser précisément le rendu avant achat.",
     technologies: ["IA", "Intelligence Artificielle", "3D Visualization", "E-commerce", "Computer Vision", "Figma", "UX/UI Design"],
     category: "design",
-    github: "", // Pas de GitHub pour ce projet
+    github: "", 
     figma: "https://www.figma.com/proto/igj3GqUcQXvBsNZPEZs6sm/nova?page-id=1%3A8&node-id=93-95&starting-point-node-id=93%3A95&scaling=scale-down-width&content-scaling=fixed&t=Po1na5tCYJ7NDy6t-1",
     status: "En développement",
     features: [
@@ -56,7 +56,7 @@ export const projectsData = [
     technologies: ["Figma", "UX/UI Design", "Gestion académique", "Workflow", "Interface utilisateur", "Design système"],
     category: "design",
     figma: "https://www.figma.com/proto/ucEuavaZMSPzAOYinlKjPM/Soutenplan?page-id=119%3A2&node-id=119-3&starting-point-node-id=119%3A3&scaling=scale-down&content-scaling=fixed&show-proto-sidebar=1&t=UGhDnuTjiGsJTk0m-1",
-    github: "", // Pas de GitHub pour ce projet de design
+    github: "", 
     status: "Prototype finalisé",
     client: "Université de Picardie Jules Verne",
     speciality: "Master MIAGE",
