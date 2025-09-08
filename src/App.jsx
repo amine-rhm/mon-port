@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import HomeSection from "./sections/HomeSection";
 import AboutSection from "./sections/AboutSection";
 import ExperienceSection from "./sections/ExperienceSection";
-import ProjectsSection from './sections/ProjectSection'; // ✅ CORRECTION: ProjectsSection au lieu de ProjectSection
+import ProjectsSection from './sections/ProjectSection';
 import SkillsSection from "./sections/SkillsSection";
 import ContactSection from "./sections/ContactSection";
 
