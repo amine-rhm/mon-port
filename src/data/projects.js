@@ -1,4 +1,3 @@
-// Données des projets pour votre portfolio - Version corrigée
 export const projectsData = [
   {
     id: 1,
