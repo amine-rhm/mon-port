@@ -68,9 +68,9 @@ vercel --prod
 
 ## Contact
 
-- Email : rahmouni.amine@email.com
-- LinkedIn : [Profil LinkedIn](https://linkedin.com/in/votre-profil)
-- GitHub : [@VotreUsername](https://github.com/VotreUsername)
+- Email : rahmouni.mohamedamine1@email.com
+- LinkedIn : [Profil LinkedIn](https://www.linkedin.com/in/mohamed-amine-rahmouni-5a08292a5/)
+- GitHub : [@amine-rhm]()
 
 ## Licence
 
