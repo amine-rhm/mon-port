@@ -129,13 +129,13 @@ const App = () => {
 
 <ProjectsSection 
   ref={sectionRefs.current.projets}
-  projects={projectsData}  // ← AJOUTEZ CETTE LIGNE
+  projects={projectsData} 
   theme={theme}
   textColor={textColor}
   primaryColor={primaryColor}
   secondaryColor={secondaryColor}
   borderColor={borderColor}
-  cardBg={theme === 'dark' ? '#1a1a2e' : '#fff'} // Optionnel
+  cardBg={theme === 'dark' ? '#1a1a2e' : '#fff'}
 />
     
 
