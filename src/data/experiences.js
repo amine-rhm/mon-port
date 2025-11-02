@@ -15,7 +15,7 @@ export const experiences = [
   {
     title: "Stage – Analyse de données et développement front-end",
     company: "Laboratoire d'économie, finance, management et innovation UPJV / ULULE",
-    period: "Avril 2024 - Mai 2024",
+    period: "Avril 2025 - Juin 2025",
     description: "Développement d'outils d'analyse et d'automatisation. Conception de bases de données et rédaction de scripts documentés. Maintenance du site web et optimisation des outils économétriques.",
     achievements: [
       "Développement d'outils d'analyse et d'automatisation (Python, R, STATA, VBA)",
@@ -33,7 +33,7 @@ export const experiences = [
   {
     title: "Stage – Développement d'une application de gestion des réclamations",
     company: "Bejaia Mediterranean Terminal (Sarl BMT)",
-    period: "Février 2023 - Avril 2023",
+    period: "Février 2024 - Avril 2024",
     description: "Développement d'une application web complète de gestion des réclamations avec approche Agile/Scrum.",
     achievements: [
       "Analyse des besoins, conception et architecture de l'application",
