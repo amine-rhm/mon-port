@@ -105,6 +105,11 @@ const SkillsSection = forwardRef((props, ref) => {
           description: "NoSQL document database for modern apps",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
         }
+        {
+          name: "WordPress",
+          description: "Popular CMS for websites and blogs",
+          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg"
+        }
       ]
     },
     {
