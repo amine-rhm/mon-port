@@ -20,7 +20,7 @@ export const experiences = [
     achievements: [
       "Développement d'outils d'analyse et d'automatisation (Python, R, STATA, VBA)",
       "Conception de bases de données et rédaction de scripts documentés",
-      "Maintenance et optimisation du site web du laboratoire (WordPress) : mise à jour de contenu,gestion des extensions, optimisation des performances"
+      "Maintenance et optimisation du site web du laboratoire (WordPress) : mise à jour de contenu,gestion des extensions, optimisation des performances",
     ],
     icons: [
       { name: 'Python', Icon: SiPython, color: '#3776ab' },
