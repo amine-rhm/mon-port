@@ -6,5 +6,6 @@ export const skills = [
     { name: "PostgreSQL", level: 70 },
     { name: "Git", level: 85 },
     { name: "Tailwind CSS", level: 90 },
-    { name: "Docker", level: 65 }
+    { name: "Docker", level: 65 },
+    { name: "WordPress", level: 80 }
   ];
