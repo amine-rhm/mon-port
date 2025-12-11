@@ -1,0 +1,10 @@
+dist/* linguist-vendored
+dist-ssr/* linguist-vendored
+build/* linguist-vendored
+node_modules/* linguist-vendored
+public/* linguist-vendored
+
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+*.css linguist-language=CSS
+*.html linguist-language=HTML
