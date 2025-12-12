@@ -273,9 +273,9 @@ const HomeSection = ({ scrollToSection }) => {
       
       <div style={{
         width: '100%',
-        maxWidth: '1400px',
+        maxWidth: '1500px',
         margin: '0 auto',
-        padding: '6rem 3rem 8rem',
+        padding: '6rem 4rem 8rem',
         display: 'grid',
         gridTemplateColumns: '0.7fr 1.5fr',
         gap: '4rem',
@@ -322,8 +322,8 @@ const HomeSection = ({ scrollToSection }) => {
                   style={{ position: 'absolute', top: 0, left: 0 }}
                 >
                   <div style={{
-                    width: '180px',
-                    height: '180px',
+                    width: '160px',
+                    height: '160px',
                     borderRadius: '24px',
                     overflow: 'hidden',
                     border: '3px solid rgba(255,255,255,0.1)',
@@ -346,8 +346,8 @@ const HomeSection = ({ scrollToSection }) => {
                   style={{
                     position: 'absolute',
                     top: 0,
-                    left: '-2rem',
-                    fontSize: 'clamp(2.8rem, 6vw, 4.5rem)',
+                    left: '0rem',
+                    fontSize: 'clamp(2.8rem, 6vw, 4rem)',
                     fontWeight: 800,
                     color: '#fff',
                     lineHeight: 1.05,
@@ -381,10 +381,10 @@ const HomeSection = ({ scrollToSection }) => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <p style={{
-            fontSize: '1.15rem',
+            fontSize: '1rem',
             color: 'rgba(255,255,255,0.75)',
             lineHeight: 1.8,
-            marginBottom: '1.5rem'
+            marginBottom: '1.6rem'
           }}>
             Je suis développeur web et j'aime transformer des idées en applications 
             web fonctionnelles et esthétiques. Ces dernières années, j'ai développé 
@@ -394,9 +394,9 @@ const HomeSection = ({ scrollToSection }) => {
           </p>
           
           <p style={{
-            fontSize: '1.15rem',
+            fontSize: '1rem',
             color: 'rgba(255,255,255,0.75)',
-            lineHeight: 1.8
+            lineHeight: 1.7
           }}>
             J'aime créer des choses utiles, intuitives et parfois juste pour le plaisir 
             (et pourquoi pas ?). Qu'il s'agisse d'une plateforme SaaS, d'une application 

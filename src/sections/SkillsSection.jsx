@@ -221,7 +221,7 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
       style={{
         background: "#050507",
         color: "#fff",
-        padding: "100px 40px 80px 40px",
+        padding: "100px 4rem 80px 4rem",
         minHeight: "100vh",
         position: "relative",
         overflow: "hidden"

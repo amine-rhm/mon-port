@@ -237,9 +237,8 @@ const ProjectCard = ({ project, isActive }) => {
 // ============================================
 const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
   const { projects = [] } = props;
-  const [activeIndex, setActiveIndex] = useState(2);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [canScroll, setCanScroll] = useState(true);
   const titleRef = useRef(null);
   const scrollRef = useRef(null);
   const isTitleInView = useInView(titleRef, { once: true });
@@ -255,77 +254,52 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
   });
 
   const handlePrev = function() {
+    if (!canScroll) return;
+    setCanScroll(false);
     setActiveIndex(function(prev) {
       return prev === 0 ? enhancedProjects.length - 1 : prev - 1;
     });
+    setTimeout(function() { setCanScroll(true); }, 400);
   };
 
   const handleNext = function() {
+    if (!canScroll) return;
+    setCanScroll(false);
     setActiveIndex(function(prev) {
       return prev === enhancedProjects.length - 1 ? 0 : prev + 1;
     });
+    setTimeout(function() { setCanScroll(true); }, 400);
   };
 
-  // Mouse drag handlers
-  const handleMouseDown = function(e) {
-    setIsDragging(true);
-    setStartX(e.pageX);
-  };
-
-  const handleMouseMove = function(e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX;
-    const diff = startX - x;
-    
-    if (Math.abs(diff) > 80) {
-      if (diff > 0) {
-        handleNext();
-      } else {
-        handlePrev();
-      }
-      setIsDragging(false);
-    }
-  };
-
-  const handleMouseUp = function() {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = function() {
-    setIsDragging(false);
-  };
-
-  // Touch handlers for mobile
-  const handleTouchStart = function(e) {
-    setStartX(e.touches[0].pageX);
-  };
-
-  const handleTouchMove = function(e) {
-    const x = e.touches[0].pageX;
-    const diff = startX - x;
-    
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) {
-        handleNext();
-      } else {
-        handlePrev();
-      }
-      setStartX(x);
-    }
-  };
-
-  // Wheel scroll handler
+  // Wheel scroll handler avec debounce
   const handleWheel = function(e) {
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-      e.preventDefault();
-      if (e.deltaX > 30) {
-        handleNext();
-      } else if (e.deltaX < -30) {
-        handlePrev();
-      }
+    if (!canScroll) return;
+    
+    // Scroll horizontal (trackpad) ou vertical (molette)
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    
+    if (delta > 20) {
+      handleNext();
+    } else if (delta < -20) {
+      handlePrev();
     }
   };
+
+  // Keyboard navigation
+  React.useEffect(function() {
+    const handleKeyDown = function(e) {
+      if (e.key === 'ArrowRight') {
+        handleNext();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrev();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return function() {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [canScroll, enhancedProjects.length]);
 
   if (enhancedProjects.length === 0) {
     return (
@@ -427,21 +401,13 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
       {/* Carrousel */}
       <div 
         ref={scrollRef}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
         onWheel={handleWheel}
         style={{
           position: 'relative',
           height: '450px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          cursor: isDragging ? 'grabbing' : 'grab',
-          userSelect: 'none'
+          justifyContent: 'center'
         }}
       >
         {/* Container des cartes */}
@@ -451,8 +417,7 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
           height: '100%',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          pointerEvents: isDragging ? 'none' : 'auto'
+          justifyContent: 'center'
         }}>
           {enhancedProjects.map(function(project, index) {
             const style = getCardStyle(index);
@@ -599,7 +564,7 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '0.75rem',
-            padding: '1rem 3rem',
+            padding: '1rem 4rem',
             width: '100%',
             maxWidth: '600px',
             borderRadius: '50px',

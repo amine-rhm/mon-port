@@ -196,7 +196,7 @@ const ContactSection = forwardRef(function ContactSection(props, ref) {
                     position: "absolute",
                     inset: 0,
                     borderRadius: "16px",
-                    padding: "1px",
+                    padding: "4px",
                     background: isHovered 
                       ? "linear-gradient(135deg, " + link.color + "50, transparent 50%, " + link.color + "30)"
                       : "linear-gradient(135deg, rgba(255,255,255,0.08), transparent 50%, rgba(255,255,255,0.04))",
