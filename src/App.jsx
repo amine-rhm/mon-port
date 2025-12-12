@@ -8,8 +8,7 @@ import Footer from "./components/Footer";
 
 // Sections
 import HomeSection from "./sections/HomeSection";
-import AboutSection from "./sections/AboutSection";
-import ExperienceSection from "./sections/ExperienceSection";
+//import ExperienceSection from "./sections/ExperienceSection";
 import ProjectsSection from './sections/ProjectSection';
 import SkillsSection from "./sections/SkillsSection";
 import ContactSection from "./sections/ContactSection";
@@ -33,7 +32,7 @@ const App = () => {
   ]);
 
   // Styles dynamiques
-  const bgColor = theme === "dark" ? "#0a0a0a" : "#fafafa";  // ← Changé ici !
+  const bgColor = theme === "dark" ? "#0a0a0a" : "#fafafa";
   const textColor = theme === "dark" ? "#fff" : "#333";
   const cardBg = theme === "dark" ? "#1e1e1e" : "#fff";
   const borderColor = theme === "dark" ? "#333" : "#eee";
@@ -44,9 +43,9 @@ const App = () => {
   const sectionRefs = React.useRef({
     accueil: React.createRef(),
     apropos: React.createRef(),
-    experiences: React.createRef(),
-    projets: React.createRef(),
+    // experiences: React.createRef(),
     competences: React.createRef(),
+    projets: React.createRef(),
     contact: React.createRef(),
   });
 
@@ -113,21 +112,20 @@ const App = () => {
         scrollToSection={scrollToSection}
       />
 
-      <AboutSection
-        ref={sectionRefs.current.apropos}
-        theme={theme}
-        textColor={textColor}
-        primaryColor={primaryColor}
-        borderColor={borderColor}
-        bgColor={bgColor}
-      />
-
-      <ExperienceSection
+      {/* <ExperienceSection
         ref={sectionRefs.current.experiences}
         theme={theme}
         textColor={textColor}
         primaryColor={primaryColor}
         secondaryColor={secondaryColor}
+        borderColor={borderColor}
+        cardBg={cardBg}
+      /> */}
+
+      <SkillsSection
+        ref={sectionRefs.current.competences}
+        theme={theme}
+        textColor={textColor}
         borderColor={borderColor}
         cardBg={cardBg}
       />
@@ -141,14 +139,6 @@ const App = () => {
         secondaryColor={secondaryColor}
         borderColor={borderColor}
         cardBg={theme === 'dark' ? '#1a1a2e' : '#fff'}
-      />
-
-      <SkillsSection
-        ref={sectionRefs.current.competences}
-        theme={theme}
-        textColor={textColor}
-        borderColor={borderColor}
-        cardBg={cardBg}
       />
 
       <ContactSection

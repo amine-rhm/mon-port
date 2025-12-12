@@ -1,32 +1,31 @@
-import React, { useState, useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { Github, ExternalLink, Figma } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { Github, ExternalLink } from 'lucide-react';
 
 // ============================================
-// COMPOSANT: Card de projet animée
+// COMPOSANT: Card de projet avec effet 3D
 // ============================================
-const ProjectCard = ({ project, index }) => {
-  const cardRef = useRef(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
+const ProjectCard = ({ project, scrollProgress }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 60 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ 
-        duration: 0.6, 
-        delay: index * 0.15,
-        ease: [0.215, 0.61, 0.355, 1]
-      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
+        minWidth: '400px',
+        height: '550px',
         display: 'flex',
         flexDirection: 'column',
-        height: '100%'
+        transformStyle: 'preserve-3d',
+        perspective: '1000px'
       }}
+      whileHover={{
+        scale: 1.05,
+        rotateY: 5,
+        z: 50
+      }}
+      transition={{ duration: 0.3 }}
     >
       {/* Image Container */}
       <motion.div
@@ -36,58 +35,16 @@ const ProjectCard = ({ project, index }) => {
           overflow: 'hidden',
           background: 'linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%)',
           border: '1px solid rgba(255,255,255,0.08)',
-          aspectRatio: '16/10',
-          cursor: 'pointer'
+          height: '350px',
+          cursor: 'pointer',
+          boxShadow: '0 10px 40px rgba(0,0,0,0.5)'
         }}
         whileHover={{ 
           borderColor: project.accentColor || 'rgba(102,126,234,0.5)',
-          boxShadow: `0 20px 40px ${project.accentColor || 'rgba(102,126,234,0.15)'}40`
+          boxShadow: `0 20px 60px ${project.accentColor || 'rgba(102,126,234,0.3)'}80`
         }}
         transition={{ duration: 0.3 }}
       >
-        {/* Gradient overlay top */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '60px',
-          background: 'linear-gradient(180deg, rgba(0,0,0,0.6) 0%, transparent 100%)',
-          zIndex: 2,
-          pointerEvents: 'none'
-        }} />
-
-        {/* Browser dots */}
-        <div style={{
-          position: 'absolute',
-          top: '12px',
-          left: '16px',
-          display: 'flex',
-          gap: '6px',
-          zIndex: 3
-        }}>
-          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff5f57' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ffbd2e' }} />
-          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#28c840' }} />
-        </div>
-
-        {/* Project name badge */}
-        <div style={{
-          position: 'absolute',
-          top: '10px',
-          right: '16px',
-          background: project.accentColor || 'rgba(102,126,234,0.8)',
-          padding: '4px 12px',
-          borderRadius: '20px',
-          fontSize: '0.75rem',
-          fontWeight: 600,
-          color: '#fff',
-          zIndex: 3,
-          backdropFilter: 'blur(10px)'
-        }}>
-          {project.category === 'design' ? '🎨 Design' : project.category === 'mobile' ? '📱 Mobile' : '🌐 Web'}
-        </div>
-
         {/* Image */}
         {project.image ? (
           <motion.img
@@ -99,7 +56,7 @@ const ProjectCard = ({ project, index }) => {
               objectFit: 'cover',
               objectPosition: 'top'
             }}
-            animate={{ scale: isHovered ? 1.05 : 1 }}
+            animate={{ scale: isHovered ? 1.1 : 1 }}
             transition={{ duration: 0.4 }}
           />
         ) : (
@@ -123,8 +80,8 @@ const ProjectCard = ({ project, index }) => {
           style={{
             position: 'absolute',
             inset: 0,
-            background: 'rgba(0,0,0,0.7)',
-            backdropFilter: 'blur(4px)',
+            background: 'rgba(0,0,0,0.75)',
+            backdropFilter: 'blur(8px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -137,11 +94,11 @@ const ProjectCard = ({ project, index }) => {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -2 }}
+              whileHover={{ scale: 1.15, y: -3 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                width: '50px',
-                height: '50px',
+                width: '55px',
+                height: '55px',
                 borderRadius: '50%',
                 background: 'rgba(255,255,255,0.1)',
                 border: '1px solid rgba(255,255,255,0.2)',
@@ -152,7 +109,7 @@ const ProjectCard = ({ project, index }) => {
                 textDecoration: 'none'
               }}
             >
-              <Github size={22} />
+              <Github size={24} />
             </motion.a>
           )}
           {project.demo && (
@@ -160,54 +117,31 @@ const ProjectCard = ({ project, index }) => {
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -2 }}
+              whileHover={{ scale: 1.15, y: -3 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                width: '50px',
-                height: '50px',
+                width: '55px',
+                height: '55px',
                 borderRadius: '50%',
                 background: project.accentColor || '#667eea',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: '#fff',
-                textDecoration: 'none'
+                textDecoration: 'none',
+                boxShadow: `0 5px 20px ${project.accentColor || '#667eea'}60`
               }}
             >
-              <ExternalLink size={22} />
-            </motion.a>
-          )}
-          {project.figma && (
-            <motion.a
-              href={project.figma}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                width: '50px',
-                height: '50px',
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                textDecoration: 'none'
-              }}
-            >
-              <Figma size={22} />
+              <ExternalLink size={24} />
             </motion.a>
           )}
         </motion.div>
       </motion.div>
 
       {/* Content */}
-      <div style={{ padding: '1.5rem 0.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Title */}
+      <div style={{ padding: '1.5rem 0.5rem', flex: 1 }}>
         <h3 style={{
-          fontSize: '1.4rem',
+          fontSize: '1.6rem',
           fontWeight: 700,
           color: '#fff',
           marginBottom: '0.75rem',
@@ -216,16 +150,14 @@ const ProjectCard = ({ project, index }) => {
           {project.title}
         </h3>
 
-        {/* Description */}
         <p style={{
           fontSize: '0.95rem',
           color: 'rgba(255,255,255,0.6)',
           lineHeight: 1.6,
-          marginBottom: '1.25rem',
-          flex: 1
+          marginBottom: '1rem'
         }}>
-          {project.description.length > 150 
-            ? project.description.substring(0, 150) + '...' 
+          {project.description.length > 130 
+            ? project.description.substring(0, 130) + '...' 
             : project.description
           }
         </p>
@@ -236,14 +168,11 @@ const ProjectCard = ({ project, index }) => {
           flexWrap: 'wrap',
           gap: '0.5rem'
         }}>
-          {project.technologies.slice(0, 5).map((tech, i) => (
-            <motion.span
+          {project.technologies.slice(0, 4).map((tech) => (
+            <span
               key={tech}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: index * 0.15 + i * 0.05 + 0.3 }}
               style={{
-                padding: '0.35rem 0.85rem',
+                padding: '0.4rem 0.9rem',
                 borderRadius: '20px',
                 fontSize: '0.8rem',
                 fontWeight: 500,
@@ -253,21 +182,8 @@ const ProjectCard = ({ project, index }) => {
               }}
             >
               {tech}
-            </motion.span>
-          ))}
-          {project.technologies.length > 5 && (
-            <span style={{
-              padding: '0.35rem 0.85rem',
-              borderRadius: '20px',
-              fontSize: '0.8rem',
-              fontWeight: 500,
-              background: 'rgba(102,126,234,0.2)',
-              color: '#667eea',
-              border: '1px solid rgba(102,126,234,0.3)'
-            }}>
-              +{project.technologies.length - 5}
             </span>
-          )}
+          ))}
         </div>
       </div>
     </motion.div>
@@ -275,96 +191,60 @@ const ProjectCard = ({ project, index }) => {
 };
 
 // ============================================
-// COMPOSANT: Filtre animé
-// ============================================
-const FilterButton = ({ label, isActive, onClick }) => (
-  <motion.button
-    onClick={onClick}
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    style={{
-      padding: '0.6rem 1.5rem',
-      borderRadius: '50px',
-      border: 'none',
-      cursor: 'pointer',
-      fontSize: '0.9rem',
-      fontWeight: 500,
-      background: isActive 
-        ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-        : 'rgba(255,255,255,0.05)',
-      color: isActive ? '#fff' : 'rgba(255,255,255,0.6)',
-      transition: 'all 0.3s ease'
-    }}
-  >
-    {label}
-  </motion.button>
-);
-
-// ============================================
-// COMPOSANT PRINCIPAL: ProjectSection
+// COMPOSANT PRINCIPAL: ProjectSection avec scroll 3D
 // ============================================
 const ProjectSection = React.forwardRef(({ 
   projects = [],
   theme = 'dark'
 }, ref) => {
-  const [activeFilter, setActiveFilter] = useState('all');
-  const sectionRef = useRef(null);
   const titleRef = useRef(null);
+  const scrollContainerRef = useRef(null);
   const isTitleInView = useInView(titleRef, { once: true });
 
-  // Ajouter des couleurs d'accent et emojis aux projets
   const enhancedProjects = projects.map((project, index) => ({
     ...project,
     accentColor: project.accentColor || ['#4ade80', '#667eea', '#f472b6', '#fbbf24', '#22d3ee', '#a78bfa'][index % 6],
     emoji: project.emoji || ['💻', '🚀', '🎨', '📊', '🛒', '📚'][index % 6]
   }));
 
-  const filteredProjects = activeFilter === 'all' 
-    ? enhancedProjects 
-    : enhancedProjects.filter(p => p.category === activeFilter);
-
-  const filters = [
-    { key: 'all', label: 'Tous' },
-    { key: 'web', label: 'Web' },
-    { key: 'mobile', label: 'Mobile' },
-    { key: 'design', label: 'Design' }
-  ];
-
   return (
     <motion.section
       ref={ref}
       id="projets"
       style={{
-        padding: '8rem 2rem',
+        padding: '8rem 0 8rem 0',
         background: '#0a0a0a',
         position: 'relative',
         overflow: 'hidden'
       }}
     >
-      {/* Background decoration */}
-      <div style={{
-        position: 'absolute',
-        top: '20%',
-        right: '-10%',
-        width: '500px',
-        height: '500px',
-        borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(102,126,234,0.08) 0%, transparent 70%)',
-        filter: 'blur(60px)',
-        pointerEvents: 'none'
-      }} />
-
-      <div style={{ maxWidth: '1400px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem 0 60px', position: 'relative', zIndex: 1 }}>
         
         {/* Header */}
         <div ref={titleRef} style={{ marginBottom: '4rem' }}>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
             animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
             style={{
+              fontSize: '0.9rem',
+              opacity: 0.6,
+              marginBottom: '15px',
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+              color: '#fff'
+            }}
+          >
+            Mon travail
+          </motion.p>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            style={{
               fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-              fontWeight: 800,
+              fontWeight: 700,
               color: '#fff',
               marginBottom: '1.5rem',
               letterSpacing: '-2px'
@@ -376,11 +256,11 @@ const ProjectSection = React.forwardRef(({
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             style={{
-              fontSize: '1.15rem',
+              fontSize: '1.1rem',
               color: 'rgba(255,255,255,0.6)',
-              maxWidth: '600px',
+              maxWidth: '700px',
               lineHeight: 1.7
             }}
           >
@@ -388,107 +268,91 @@ const ProjectSection = React.forwardRef(({
             expérience des technologies web et mobiles modernes.
           </motion.p>
         </div>
-
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          style={{
-            display: 'flex',
-            gap: '0.75rem',
-            marginBottom: '3rem',
-            flexWrap: 'wrap'
-          }}
-        >
-          {filters.map(filter => (
-            <FilterButton
-              key={filter.key}
-              label={filter.label}
-              isActive={activeFilter === filter.key}
-              onClick={() => setActiveFilter(filter.key)}
-            />
-          ))}
-        </motion.div>
-
-        {/* Projects Grid */}
-        <motion.div
-          layout
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))',
-            gap: '2.5rem'
-          }}
-        >
-          {filteredProjects.length > 0 ? (
-            filteredProjects.map((project, index) => (
-              <ProjectCard 
-                key={project.id || index}
-                project={project}
-                index={index}
-              />
-            ))
-          ) : (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              style={{
-                gridColumn: '1 / -1',
-                textAlign: 'center',
-                padding: '4rem 2rem',
-                color: 'rgba(255,255,255,0.5)'
-              }}
-            >
-              <p style={{ fontSize: '1.1rem' }}>Aucun projet trouvé dans cette catégorie.</p>
-            </motion.div>
-          )}
-        </motion.div>
-
-        {/* View more button */}
-        {filteredProjects.length > 6 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '4rem'
-            }}
-          >
-            <motion.button
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                padding: '1rem 2.5rem',
-                borderRadius: '50px',
-                border: '1px solid rgba(255,255,255,0.2)',
-                background: 'transparent',
-                color: '#fff',
-                fontSize: '1rem',
-                fontWeight: 500,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}
-            >
-              Voir plus de projets
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12,5 19,12 12,19"/>
-              </svg>
-            </motion.button>
-          </motion.div>
-        )}
       </div>
 
-      {/* CSS for responsive */}
+      {/* Scroll horizontal container avec effet 3D */}
+      <div 
+        ref={scrollContainerRef}
+        style={{ 
+          position: 'relative',
+          width: '100%',
+          overflowX: 'auto',
+          overflowY: 'hidden',
+          perspective: '1500px',
+          perspectiveOrigin: 'center center',
+          paddingLeft: '60px',
+          paddingRight: '60px',
+          paddingBottom: '20px'
+        }}
+      >
+        <motion.div
+          style={{
+            display: 'flex',
+            gap: '40px',
+            width: 'fit-content',
+            transformStyle: 'preserve-3d'
+          }}
+        >
+          {enhancedProjects.map((project, index) => (
+            <motion.div
+              key={project.id || index}
+              initial={{ opacity: 0, x: 100, rotateY: -15 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ 
+                duration: 0.6, 
+                delay: index * 0.1,
+                ease: [0.215, 0.61, 0.355, 1]
+              }}
+              style={{
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <ProjectCard 
+                project={project}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Gradient overlays pour effet de fade */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '150px',
+        height: '100%',
+        background: 'linear-gradient(90deg, #0a0a0a 0%, transparent 100%)',
+        pointerEvents: 'none',
+        zIndex: 2
+      }} />
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        width: '150px',
+        height: '100%',
+        background: 'linear-gradient(270deg, #0a0a0a 0%, transparent 100%)',
+        pointerEvents: 'none',
+        zIndex: 2
+      }} />
+
+      {/* Custom scrollbar styling */}
       <style>{`
-        @media (max-width: 768px) {
-          #projets > div > div:last-child {
-            grid-template-columns: 1fr !important;
-          }
+        #projets div[style*="overflowX"]::-webkit-scrollbar {
+          height: 8px;
+        }
+        #projets div[style*="overflowX"]::-webkit-scrollbar-track {
+          background: rgba(255,255,255,0.05);
+          border-radius: 10px;
+        }
+        #projets div[style*="overflowX"]::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.2);
+          border-radius: 10px;
+        }
+        #projets div[style*="overflowX"]::-webkit-scrollbar-thumb:hover {
+          background: rgba(255,255,255,0.3);
         }
       `}</style>
     </motion.section>

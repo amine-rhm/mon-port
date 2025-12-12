@@ -1,57 +1,35 @@
-import React, { useState, forwardRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Loader2 } from 'lucide-react';
-import emailjs from 'emailjs-com';
+import React, { forwardRef } from 'react';
+import { motion } from 'framer-motion';
+import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
 
 const ContactSection = forwardRef((props, ref) => {
   const { theme, textColor, primaryColor } = props;
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const bgColor = "#0a0a0a";
 
-  const [isSending, setIsSending] = useState(false);
-  const [status, setStatus] = useState('');
-
-  // Styles dynamiques basés sur le thème
-  const bgColor = theme === "dark" ? "#1a1a1a" : "#ffffff";
-  const cardBg = theme === "dark" ? "#262626" : "#f8f9fa";
-  const inputBg = theme === "dark" ? "#333333" : "#ffffff";
-  const borderColor = theme === "dark" ? "#404040" : "#e1e5e9";
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (status) setStatus('');
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSending(true);
-    setStatus('');
-
-    try {
-      await emailjs.send(
-        'service_xxxxx',
-        'template_xxxxx',
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-        },
-        'publicKey_xxxxx'
-      );
-      
-      setStatus('success');
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      console.error('Erreur EmailJS:', error);
-      setStatus('error');
-    } finally {
-      setIsSending(false);
+  const contactLinks = [
+    {
+      icon: <Github size={32} />,
+      title: "GitHub",
+      handle: "@amine-rhm",
+      description: "Découvrez mes projets et mon code",
+      url: "https://github.com/amine-rhm"
+    },
+    {
+      icon: <Linkedin size={32} />,
+      title: "LinkedIn",
+      handle: "/dans/rahmouni mohamed amine",
+      description: "Contactez-moi sur le plan professionnel",
+      url: "https://linkedin.com/in/rahmouni mohamed amine "
+    },
+    {
+      icon: <Mail size={32} />,
+      title: "E-mail",
+      handle: "rahmouni.mohamedamine1@gmail.com",
+      description: "Envoyez-moi un message privé",
+      url: "mailto:rahmouni.mohamedamine1@gmail.com"
     }
-  };
+  ];
 
   return (
     <motion.section
@@ -61,54 +39,49 @@ const ContactSection = forwardRef((props, ref) => {
         backgroundColor: bgColor,
         color: textColor,
         padding: "80px 20px",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center"
+        minHeight: "100vh"
       }}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
     >
-      <div style={{ maxWidth: "1000px", margin: "0 auto", width: "100%" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
         
-        {/* Header */}
+        {/* Titre en haut à gauche */}
         <motion.div
-          style={{ textAlign: "center", marginBottom: "50px" }}
-          initial={{ y: 30, opacity: 0 }}
+          initial={{ y: -30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
+          style={{ marginBottom: "80px" }}
         >
+          <p style={{
+            fontSize: "1rem",
+            opacity: 0.6,
+            marginBottom: "10px",
+            letterSpacing: "1px"
+          }}>
+            Allons-y parler
+          </p>
           <h2
             style={{
-              fontSize: "2.5rem",
+              fontSize: "clamp(2.5rem, 6vw, 4rem)",
               fontWeight: "700",
-              marginBottom: "15px",
-              color: primaryColor
+              color: textColor
             }}
           >
-            Me Contacter
+            Contact
           </h2>
-          <p
-            style={{
-              fontSize: "1.1rem",
-              opacity: 0.8,
-              maxWidth: "500px",
-              margin: "0 auto"
-            }}
-          >
-            Une question ou un projet ? Contactez-moi !
-          </p>
         </motion.div>
 
-        <div style={{ 
-          display: "grid", 
-          gridTemplateColumns: "400px 1fr", 
-          gap: "50px",
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "60px",
           alignItems: "start"
         }}>
           
-          {/* Infos Contact */}
+          {/* Texte à gauche */}
           <motion.div
             initial={{ x: -30, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
@@ -116,240 +89,121 @@ const ContactSection = forwardRef((props, ref) => {
           >
             <h3
               style={{
-                fontSize: "1.5rem",
+                fontSize: "clamp(1.3rem, 3vw, 1.8rem)",
                 fontWeight: "600",
-                marginBottom: "25px"
+                marginBottom: "30px",
+                color: textColor
               }}
             >
-              Informations
+              Vous pouvez me trouver sur...
             </h3>
             
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              
-              <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                <div style={{
-                  width: "45px",
-                  height: "45px",
-                  backgroundColor: primaryColor,
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}>
-                  <Mail size={20} color="white" />
-                </div>
-                <div>
-                  <h4 style={{ fontWeight: "600", marginBottom: "3px" }}>Email</h4>
-                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>rahmouni.mohamedamine1@gmail.com</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                <div style={{
-                  width: "45px",
-                  height: "45px",
-                  backgroundColor: primaryColor,
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}>
-                  <Phone size={20} color="white" />
-                </div>
-                <div>
-                  <h4 style={{ fontWeight: "600", marginBottom: "3px" }}>Téléphone</h4>
-                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>+33 7 51 11 68 41</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                <div style={{
-                  width: "45px",
-                  height: "45px",
-                  backgroundColor: primaryColor,
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}>
-                  <MapPin size={20} color="white" />
-                </div>
-                <div>
-                  <h4 style={{ fontWeight: "600", marginBottom: "3px" }}>Localisation</h4>
-                  <p style={{ opacity: 0.7, fontSize: "0.95rem" }}>France</p>
-                </div>
-              </div>
-
-            </div>
-          </motion.div>
-
-          {/* Formulaire */}
-          <motion.div
-            initial={{ x: 30, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            <div
+            <p
               style={{
-                backgroundColor: cardBg,
-                padding: "35px",
-                borderRadius: "15px",
-                border: `1px solid ${borderColor}`,
-                boxShadow: theme === "dark" 
-                  ? "0 10px 30px rgba(0,0,0,0.2)" 
-                  : "0 10px 30px rgba(0,0,0,0.08)"
+                fontSize: "1rem",
+                opacity: 0.7,
+                lineHeight: "1.8",
+                marginBottom: "20px"
               }}
             >
-              
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Votre nom"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    width: "100%",
-                    padding: "12px 15px",
-                    fontSize: "1rem",
-                    backgroundColor: inputBg,
-                    border: `1px solid ${borderColor}`,
-                    borderRadius: "8px",
-                    outline: "none",
-                    color: textColor,
-                    transition: "border-color 0.3s ease"
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = primaryColor}
-                  onBlur={(e) => e.target.style.borderColor = borderColor}
-                />
-
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Votre email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    width: "100%",
-                    padding: "12px 15px",
-                    fontSize: "1rem",
-                    backgroundColor: inputBg,
-                    border: `1px solid ${borderColor}`,
-                    borderRadius: "8px",
-                    outline: "none",
-                    color: textColor,
-                    transition: "border-color 0.3s ease"
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = primaryColor}
-                  onBlur={(e) => e.target.style.borderColor = borderColor}
-                />
-
-                <textarea
-                  name="message"
-                  placeholder="Votre message"
-                  rows="5"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  style={{
-                    width: "100%",
-                    padding: "12px 15px",
-                    fontSize: "1rem",
-                    backgroundColor: inputBg,
-                    border: `1px solid ${borderColor}`,
-                    borderRadius: "8px",
-                    outline: "none",
-                    color: textColor,
-                    resize: "vertical",
-                    minHeight: "100px",
-                    transition: "border-color 0.3s ease"
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = primaryColor}
-                  onBlur={(e) => e.target.style.borderColor = borderColor}
-                />
-
-                <motion.button
-                  type="submit"
-                  disabled={isSending}
-                  whileHover={{ scale: isSending ? 1 : 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  style={{
-                    backgroundColor: primaryColor,
-                    color: "white",
-                    padding: "12px 20px",
-                    fontSize: "1rem",
-                    fontWeight: "600",
-                    border: "none",
-                    borderRadius: "8px",
-                    cursor: isSending ? "not-allowed" : "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "8px",
-                    opacity: isSending ? 0.7 : 1,
-                    transition: "all 0.3s ease"
-                  }}
-                >
-                  {isSending ? (
-                    <>
-                      <Loader2 size={18} className="animate-spin" style={{
-                        animation: "spin 1s linear infinite"
-                      }} />
-                      Envoi...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={18} />
-                      Envoyer
-                    </>
-                  )}
-                </motion.button>
-
-                <AnimatePresence>
-                  {status && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      style={{
-                        padding: "12px 15px",
-                        borderRadius: "8px",
-                        textAlign: "center",
-                        fontSize: "0.95rem",
-                        backgroundColor: status === 'success' ? '#10B98115' : '#EF444415',
-                        border: `1px solid ${status === 'success' ? '#10B981' : '#EF4444'}`,
-                        color: status === 'success' ? '#10B981' : '#EF4444'
-                      }}
-                    >
-                      {status === 'success' ? (
-                        'Message envoyé avec succès !'
-                      ) : (
-                        'Erreur lors de l\'envoi. Réessayez.'
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-              </form>
-            </div>
+              Vous avez une idée, un projet, ou simplement quelque chose de sympa à construire ? Je suis tout ouïe.
+            </p>
+            
+            <p
+              style={{
+                fontSize: "1rem",
+                opacity: 0.7,
+                lineHeight: "1.8"
+              }}
+            >
+              Je suis toujours ouvert aux conversations intéressantes, aux collaborations et aux échanges avec d'autres développeurs et créateurs. N'hésitez pas à me contacter via l'une de ces plateformes !
+            </p>
           </motion.div>
 
+          {/* Cards à droite */}
+          <div style={{ 
+            display: "flex", 
+            flexDirection: "column",
+            gap: "20px"
+          }}>
+            {contactLinks.map((link, index) => (
+              <motion.a
+                key={index}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ x: 30, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                transition={{ delay: 0.4 + index * 0.1 }}
+                whileHover={{ x: 5 }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "20px",
+                  padding: "25px",
+                  backgroundColor: "rgba(255, 255, 255, 0.02)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  borderRadius: "12px",
+                  textDecoration: "none",
+                  color: textColor,
+                  transition: "all 0.3s ease",
+                  cursor: "pointer"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.04)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
+                  e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.08)";
+                }}
+              >
+                <div style={{
+                  color: textColor,
+                  minWidth: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  opacity: 0.9
+                }}>
+                  {link.icon}
+                </div>
+                
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ 
+                    fontWeight: "700", 
+                    marginBottom: "3px",
+                    fontSize: "1.2rem"
+                  }}>
+                    {link.title}
+                  </h4>
+                  <p style={{ 
+                    opacity: 0.9, 
+                    fontSize: "0.95rem",
+                    marginBottom: "3px"
+                  }}>
+                    {link.handle}
+                  </p>
+                  <p style={{ 
+                    opacity: 0.5, 
+                    fontSize: "0.85rem" 
+                  }}>
+                    {link.description}
+                  </p>
+                </div>
+
+                <ExternalLink size={18} style={{ opacity: 0.4 }} />
+              </motion.a>
+            ))}
+          </div>
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        
         @media (max-width: 768px) {
           div[style*="grid-template-columns"] {
             grid-template-columns: 1fr !important;
-            gap: 30px !important;
+            gap: 40px !important;
           }
         }
       `}</style>

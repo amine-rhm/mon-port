@@ -14,7 +14,7 @@ const ExperienceSection = forwardRef(({ theme, textColor, primaryColor, secondar
       viewport={{ once: true }}
       style={{
         padding: '6rem 2rem',
-        background: theme === 'dark' ? '#1a1a1a' : '#f8f9fa'
+        background: '#0a0a0a'
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -25,9 +25,10 @@ const ExperienceSection = forwardRef(({ theme, textColor, primaryColor, secondar
           viewport={{ once: true }}
           style={{
             textAlign: 'center',
-            fontSize: '2.5rem',
+            fontSize: 'clamp(1.8rem, 5vw, 2.5rem)',
             marginBottom: '3rem',
             color: textColor,
+             zIndex: 2,
             fontWeight: '600'
           }}
         >

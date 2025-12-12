@@ -5,7 +5,7 @@ import cvPdf from '../assets/amin (1).pdf';
 import ph from '../assets/photo.jpg';
 
 // ============================================
-// Bandeau technologies défilant - PLEINE LARGEUR
+// Technologies
 // ============================================
 const technologies = [
   { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
@@ -24,67 +24,84 @@ const technologies = [
   { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
 ];
 
+// ============================================
+// Bandeau technologies - PLEIN ÉCRAN
+// ============================================
 const TechBanner = () => {
   return (
-    <div style={{
-      position: 'absolute',
-      bottom: 0,
-      left: '50%',
-      transform: 'translateX(-50%)',
-      width: '100vw',
-      padding: '1.5rem 0',
-      borderTop: '1px solid rgba(255,255,255,0.1)',
-      overflow: 'hidden',
-      background: '#0a0a0a'
-    }}>
-      <motion.div
-        animate={{ x: [0, -2000] }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 30,
-            ease: "linear",
-          },
-        }}
-        style={{
-          display: 'flex',
-          gap: '2rem',
-          width: 'fit-content',
-          paddingLeft: '2rem'
-        }}
-      >
-        {[...technologies, ...technologies, ...technologies].map((tech, index) => (
-          <div
-            key={index}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.75rem',
-              padding: '0.7rem 1.4rem',
-              background: 'rgba(255,255,255,0.03)',
-              borderRadius: '10px',
-              border: '1px solid rgba(255,255,255,0.08)',
-              flexShrink: 0
-            }}
-          >
-            <img
-              src={tech.icon}
-              alt={tech.name}
-              style={{ width: '26px', height: '26px' }}
-            />
-            <span style={{
-              color: 'rgba(255,255,255,0.8)',
-              fontSize: '0.95rem',
-              fontWeight: 500,
-              whiteSpace: 'nowrap'
-            }}>
-              {tech.name}
-            </span>
-          </div>
-        ))}
-      </motion.div>
-    </div>
+    <>
+      <style>{`
+        @keyframes scrollTech {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        
+        .tech-banner-container {
+          position: absolute;
+          bottom: -3rem;
+          left: 7rem;
+          right: 7rem;
+          width: auto;
+          padding: 1.2rem 0;
+          overflow: visible;
+          background: #0a0a0a;
+          z-index: 50;
+          mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        }
+        
+        .tech-scroll-wrapper {
+          display: flex;
+          width: fit-content;
+          animation: scrollTech 100s linear infinite;
+        }
+
+        .tech-banner-container:hover .tech-scroll-wrapper {
+          animation-play-state: paused;
+        }
+
+        .tech-item {
+          display: flex;
+          align-items: center;
+          gap: 0.7rem;
+          padding: 0.7rem 1.4rem;
+          margin-right: 1rem;
+          background: rgba(255,255,255,0.03);
+          border-radius: 10px;
+          border: 1px solid rgba(255,255,255,0.08);
+          flex-shrink: 0;
+          transition: transform 0.4s ease, background 0.3s ease;
+        }
+
+        .tech-item:hover {
+          transform: scale(1.1);
+          background: rgba(255,255,255,0.08);
+        }
+        
+        .tech-item img {
+          width: 26px;
+          height: 26px;
+        }
+        
+        .tech-item span {
+          color: rgba(255,255,255,0.8);
+          font-size: 0.95rem;
+          font-weight: 500;
+          white-space: nowrap;
+        }
+      `}</style>
+      
+      <div className="tech-banner-container">
+        <div className="tech-scroll-wrapper">
+          {Array(12).fill(technologies).flat().map((tech, index) => (
+            <div key={index} className="tech-item">
+              <img src={tech.icon} alt={tech.name} />
+              <span>{tech.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 
@@ -247,34 +264,31 @@ const HomeSection = ({ scrollToSection }) => {
         width: '100%',
         background: '#0a0a0a',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'visible',
         display: 'flex',
         alignItems: 'center'
       }}
     >
       <Particles />
       
-      {/* Container principal */}
       <div style={{
         width: '100%',
         maxWidth: '1400px',
         margin: '0 auto',
         padding: '6rem 3rem 8rem',
         display: 'grid',
-        gridTemplateColumns: '1fr 1.2fr',
+        gridTemplateColumns: '0.7fr 1.5fr',
         gap: '4rem',
         alignItems: 'center',
         position: 'relative',
         zIndex: 1
       }}>
         
-        {/* ========== COLONNE GAUCHE ========== */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Intro */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -292,7 +306,6 @@ const HomeSection = ({ scrollToSection }) => {
             Hi, I'm <span style={{ color: '#fff', fontWeight: 500 }}>Rahmouni Mohamed Amine</span>
           </motion.p>
 
-          {/* Zone alternance Photo / Texte */}
           <div style={{
             position: 'relative',
             height: '220px',
@@ -333,7 +346,7 @@ const HomeSection = ({ scrollToSection }) => {
                   style={{
                     position: 'absolute',
                     top: 0,
-                    left: 0,
+                    left: '-2rem',
                     fontSize: 'clamp(2.8rem, 6vw, 4.5rem)',
                     fontWeight: 800,
                     color: '#fff',
@@ -349,7 +362,6 @@ const HomeSection = ({ scrollToSection }) => {
             </AnimatePresence>
           </div>
 
-          {/* Boutons sociaux */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -363,7 +375,6 @@ const HomeSection = ({ scrollToSection }) => {
           </motion.div>
         </motion.div>
 
-        {/* ========== COLONNE DROITE ========== */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -397,14 +408,13 @@ const HomeSection = ({ scrollToSection }) => {
         </motion.div>
       </div>
 
-      {/* Flèche scroll */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
         style={{
           position: 'absolute',
-          bottom: '100px',
+          bottom: '60px',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 2
@@ -413,7 +423,7 @@ const HomeSection = ({ scrollToSection }) => {
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
-          style={{ color: 'rgba(255,255,255,0.4)', cursor: 'pointer' }}
+          style={{ color: '#3b82f6', cursor: 'pointer' }}
           onClick={() => scrollToSection && scrollToSection('apropos')}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -422,10 +432,8 @@ const HomeSection = ({ scrollToSection }) => {
         </motion.div>
       </motion.div>
 
-      {/* Bandeau technologies - PLEINE LARGEUR */}
       <TechBanner />
 
-      {/* CSS Responsive */}
       <style>{`
         @media (max-width: 968px) {
           #accueil > div {
