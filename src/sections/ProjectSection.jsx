@@ -259,7 +259,7 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
     setActiveIndex(function(prev) {
       return prev === 0 ? enhancedProjects.length - 1 : prev - 1;
     });
-    setTimeout(function() { setCanScroll(true); }, 400);
+    setTimeout(function() { setCanScroll(true); }, 800);
   };
 
   const handleNext = function() {
@@ -268,19 +268,19 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
     setActiveIndex(function(prev) {
       return prev === enhancedProjects.length - 1 ? 0 : prev + 1;
     });
-    setTimeout(function() { setCanScroll(true); }, 400);
+    setTimeout(function() { setCanScroll(true); }, 800);
   };
 
-  // Wheel scroll handler avec debounce
+  // Wheel scroll handler avec debounce plus long
   const handleWheel = function(e) {
     if (!canScroll) return;
     
     // Scroll horizontal (trackpad) ou vertical (molette)
     const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
     
-    if (delta > 20) {
+    if (delta > 50) {
       handleNext();
-    } else if (delta < -20) {
+    } else if (delta < -50) {
       handlePrev();
     }
   };
@@ -329,11 +329,18 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
     // Légère rotation
     const rotate = diff * 2;
     
+    // Cacher les cartes trop éloignées (seulement 2 de chaque côté)
+    if (Math.abs(diff) > 2) {
+      return {
+        display: 'none'
+      };
+    }
+    
     return {
       transform: 'translateX(' + baseOffset + 'px) translateY(' + verticalOffset + 'px) scale(' + scale + ') rotate(' + rotate + 'deg)',
-      opacity: Math.abs(diff) <= 2 ? (1 - Math.abs(diff) * 0.25) : 0,
+      opacity: Math.abs(diff) === 0 ? 1 : Math.abs(diff) === 1 ? 0.7 : 0.4,
       zIndex: 10 - Math.abs(diff),
-      display: Math.abs(diff) > 3 ? 'none' : 'block'
+      display: 'block'
     };
   };
 
@@ -350,7 +357,7 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
       }}
     >
       {/* Header */}
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem', marginBottom: '3rem' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 4rem', marginBottom: '3rem' }}>
         <div ref={titleRef}>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -496,14 +503,14 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
           <ChevronRight size={20} />
         </button>
 
-        {/* Fade edges */}
+        {/* Fade edges - plus larges pour cacher les cartes */}
         <div style={{
           position: 'absolute',
           left: 0,
           top: 0,
-          width: '150px',
+          width: '250px',
           height: '100%',
-          background: 'linear-gradient(90deg, #050507 0%, transparent 100%)',
+          background: 'linear-gradient(90deg, #050507 30%, transparent 100%)',
           pointerEvents: 'none',
           zIndex: 15
         }} />
@@ -511,9 +518,9 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
           position: 'absolute',
           right: 0,
           top: 0,
-          width: '150px',
+          width: '250px',
           height: '100%',
-          background: 'linear-gradient(270deg, #050507 0%, transparent 100%)',
+          background: 'linear-gradient(270deg, #050507 30%, transparent 100%)',
           pointerEvents: 'none',
           zIndex: 15
         }} />
@@ -553,7 +560,7 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
         justifyContent: 'center', 
         marginTop: '2rem',
         marginBottom: '0',
-        padding: '0 3rem'
+        padding: '0 4rem'
       }}>
         <a
           href="https://github.com/amine-rhm"
@@ -564,7 +571,7 @@ const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
             alignItems: 'center',
             justifyContent: 'center',
             gap: '0.75rem',
-            padding: '1rem 4rem',
+            padding: '1rem 3rem',
             width: '100%',
             maxWidth: '600px',
             borderRadius: '50px',

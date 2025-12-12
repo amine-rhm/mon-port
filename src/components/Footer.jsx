@@ -14,7 +14,7 @@ const Footer = ({ theme, textColor, borderColor }) => {
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
       style={{
-        background: '#0a0a0a',
+        background: 'rgba(255, 255, 255, 0)',
         color: '#666',
         padding: '2rem',
         borderTop: '1px solid rgba(255, 255, 255, 0.08)'
