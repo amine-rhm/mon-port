@@ -1,6 +1,9 @@
 import locu from '../assets/locu.png';
 import soutenplan from '../assets/soutenplan.png';
 import vizzo from '../assets/vizzo.png';
+import hand from '../assets/hand.png';
+import gs from '../assets/project.png';
+
 
 export const projectsData = [
   {
@@ -10,7 +13,7 @@ export const projectsData = [
     technologies: ["Python", "OpenCV", "MediaPipe", "Computer Vision", "PyCharm"],
     category: "web",
     github: "https://github.com/amine-rhm/HandControlPC-",
-    emoji: "🖐️"
+    image: hand
   },
   {
     id: 2,
@@ -19,7 +22,7 @@ export const projectsData = [
     technologies: ["C", "Linux", "GCC", "Make", "Unix", "System Programming"],
     category: "web",
     github: "https://github.com/amine-rhm/minishell",
-    emoji: "💻"
+    emoji:'@'
   },
   {
     id: 3,
@@ -37,7 +40,7 @@ export const projectsData = [
     technologies: ["Algorithmes", "Planification", "Diagrammes", "Gestion de projet"],
     category: "web",
     github: "https://github.com/amine-rhm/getion-de-projet",
-    emoji: "📊"
+    image:gs
   },
   {
     id: 5,
