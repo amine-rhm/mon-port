@@ -5,15 +5,17 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const SkillsSection = forwardRef((props, ref) => {
-  const { theme = "light", textColor = "#333" } = props;
+const SkillsSection = forwardRef(function SkillsSection(props, ref) {
+  const { theme = "dark", textColor = "#fff" } = props;
   
   const [activeCategory, setActiveCategory] = useState(0);
+  const [hoveredSkill, setHoveredSkill] = useState(null);
   
   const categories = [
     {
       title: "Frontend",
-      icon: <Code size={24} />,
+      icon: <Code size={20} />,
+      color: "#61DAFB",
       skills: [
         {
           name: "React",
@@ -49,7 +51,8 @@ const SkillsSection = forwardRef((props, ref) => {
     },
     {
       title: "Backend",
-      icon: <Database size={24} />,
+      icon: <Database size={20} />,
+      color: "#22c55e",
       skills: [
         {
           name: "Node.js",
@@ -88,16 +91,10 @@ const SkillsSection = forwardRef((props, ref) => {
           color: "#A8B9CC"
         },
         {
-          name: "Symfony",
-          description: "Framework PHP pour applications web",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/symfony/symfony-original.svg",
-          color: "#000000"
-        },
-        {
           name: "Express.js",
           description: "Framework web rapide pour Node.js",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
-          color: "#000000"
+          color: "#ffffff"
         },
         {
           name: "Firebase",
@@ -112,28 +109,17 @@ const SkillsSection = forwardRef((props, ref) => {
           color: "#336791"
         },
         {
-          name: "MySQL",
-          description: "Système de gestion de base de données populaire",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-          color: "#4479A1"
-        },
-        {
           name: "MongoDB",
           description: "Base de données NoSQL pour applications modernes",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
           color: "#47A248"
-        },
-        {
-          name: "WordPress",
-          description: "CMS populaire pour sites web et blogs",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg",
-          color: "#21759B"
         }
       ]
     },
     {
       title: "Mobile",
-      icon: <Smartphone size={24} />,
+      icon: <Smartphone size={20} />,
+      color: "#a855f7",
       skills: [
         {
           name: "React Native",
@@ -145,11 +131,12 @@ const SkillsSection = forwardRef((props, ref) => {
     },
     {
       title: "Data",
-      icon: <BarChart3 size={24} />,
+      icon: <BarChart3 size={20} />,
+      color: "#f59e0b",
       skills: [
         {
           name: "Pandas",
-          description: "Bibliothèque de manipulation et d'analyse de données pour Python",
+          description: "Bibliothèque de manipulation et d'analyse de données",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
           color: "#150458"
         },
@@ -160,52 +147,23 @@ const SkillsSection = forwardRef((props, ref) => {
           color: "#013243"
         },
         {
-          name: "BeautifulSoup",
-          description: "Bibliothèque de web scraping pour Python",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-          color: "#3776AB"
-        },
-        {
-          name: "Requests",
-          description: "Bibliothèque HTTP pour le web scraping Python",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-          color: "#3776AB"
-        },
-        {
-          name: "Tableau",
-          description: "Business intelligence et visualisation de données",
-          icon: "https://logos-world.net/wp-content/uploads/2021/10/Tableau-Logo.png",
-          color: "#E97627"
-        },
-        {
           name: "Power BI",
           description: "Solution d'analyse commerciale de Microsoft",
-          icon: "https://logos-world.net/wp-content/uploads/2022/02/Microsoft-Power-BI-Symbol.png",
+          icon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg",
           color: "#F2C811"
         }
       ]
     },
     {
-      title: "UX/UI",
-      icon: <Palette size={24} />,
+      title: "Design",
+      icon: <Palette size={20} />,
+      color: "#ec4899",
       skills: [
         {
           name: "Figma",
           description: "Outil de conception et de prototypage collaboratif",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
           color: "#F24E1E"
-        },
-        {
-          name: "Adobe XD",
-          description: "Logiciel de conception d'expérience utilisateur",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/xd/xd-plain.svg",
-          color: "#FF61F6"
-        },
-        {
-          name: "Sketch",
-          description: "Boîte à outils de conception numérique",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sketch/sketch-original.svg",
-          color: "#F7B500"
         },
         {
           name: "Photoshop",
@@ -217,7 +175,8 @@ const SkillsSection = forwardRef((props, ref) => {
     },
     {
       title: "Outils",
-      icon: <Settings size={24} />,
+      icon: <Settings size={20} />,
+      color: "#06b6d4",
       skills: [
         {
           name: "VS Code",
@@ -238,12 +197,6 @@ const SkillsSection = forwardRef((props, ref) => {
           color: "#2496ED"
         },
         {
-          name: "Webpack",
-          description: "Bundler de modules pour applications JavaScript",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg",
-          color: "#8DD6F9"
-        },
-        {
           name: "Terminal",
           description: "Interface en ligne de commande pour opérations système",
           icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg",
@@ -259,198 +212,276 @@ const SkillsSection = forwardRef((props, ref) => {
     }
   ];
 
+  const activeColor = categories[activeCategory].color;
+
   return (
     <section
       ref={ref}
       id="competences"
       style={{
-        backgroundColor: "#0a0a0a",
-        color: textColor,
-        padding: "120px 40px 80px 40px",
-        minHeight: "100vh"
+        background: "#050507",
+        color: "#fff",
+        padding: "100px 40px 80px 40px",
+        minHeight: "100vh",
+        position: "relative",
+        overflow: "hidden"
       }}
     >
-      <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+      {/* Background glow */}
+      <div style={{
+        position: "absolute",
+        top: "20%",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "600px",
+        height: "400px",
+        background: "radial-gradient(ellipse, " + activeColor + "08 0%, transparent 70%)",
+        pointerEvents: "none",
+        transition: "background 0.5s ease"
+      }} />
+
+      <div style={{ maxWidth: "1400px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         
         {/* Header */}
-        <div style={{ marginBottom: "80px", paddingLeft: "20px" }}>
-          <p style={{
-            fontSize: "0.9rem",
-            opacity: 0.6,
-            marginBottom: "15px",
-            letterSpacing: "2px",
-            textTransform: "uppercase"
-          }}>
+        <div style={{ marginBottom: "60px" }}>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{
+              fontSize: "0.85rem",
+              color: "rgba(255,255,255,0.4)",
+              marginBottom: "0.75rem",
+              letterSpacing: "3px",
+              textTransform: "uppercase"
+            }}
+          >
             Technologies
-          </p>
-          <h2 style={{
-            fontSize: "clamp(2rem, 5vw, 3.5rem)",
-            fontWeight: "700",
-            marginBottom: "30px",
-            color: textColor,
-            lineHeight: "1.2"
-          }}>
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontWeight: "700",
+              marginBottom: "1rem",
+              letterSpacing: "-1px"
+            }}
+          >
             Ce que j'utilise
-          </h2>
-          <p style={{
-            fontSize: "1.1rem",
-            opacity: 0.7,
-            maxWidth: "700px",
-            lineHeight: "1.7"
-          }}>
-            Voici les outils et technologies que j'utilise pour donner vie à mes idées. Des frameworks frontend aux services backend, ce sont mes solutions de prédilection pour développer des applications modernes.
-          </p>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            style={{
+              fontSize: "1rem",
+              color: "rgba(255,255,255,0.5)",
+              maxWidth: "600px",
+              lineHeight: "1.7"
+            }}
+          >
+            Voici les outils et technologies que j'utilise pour donner vie à mes idées.
+          </motion.p>
         </div>
 
-        {/* Barre de navigation horizontale */}
+        {/* Tabs navigation */}
         <div style={{
           display: "flex",
-          gap: "0",
-          marginBottom: "60px",
+          gap: "0.5rem",
+          marginBottom: "50px",
           flexWrap: "wrap",
-          justifyContent: "center"
+          justifyContent: "center",
+          padding: "0.5rem",
+          background: "rgba(255,255,255,0.02)",
+          borderRadius: "16px",
+          border: "1px solid rgba(255,255,255,0.05)"
         }}>
-          {categories.map((category, index) => (
-            <button
-              key={category.title}
-              onClick={() => setActiveCategory(index)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                padding: "16px 32px",
-                backgroundColor: "transparent",
-                color: activeCategory === index ? textColor : "#666",
-                border: "none",
-                borderBottom: activeCategory === index ? `3px solid ${textColor}` : "3px solid transparent",
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                fontSize: "1.1rem",
-                fontWeight: "600"
-              }}
-              onMouseEnter={(e) => {
-                if (activeCategory !== index) {
-                  e.currentTarget.style.color = "#999";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeCategory !== index) {
-                  e.currentTarget.style.color = "#666";
-                }
-              }}
-            >
-              {category.icon}
-              {category.title}
-            </button>
-          ))}
+          {categories.map(function(category, index) {
+            const isActive = activeCategory === index;
+            return (
+              <button
+                key={category.title}
+                onClick={function() { setActiveCategory(index); }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "12px 24px",
+                  background: isActive 
+                    ? "linear-gradient(135deg, " + category.color + "20, " + category.color + "10)"
+                    : "transparent",
+                  color: isActive ? "#fff" : "rgba(255,255,255,0.5)",
+                  border: isActive 
+                    ? "1px solid " + category.color + "40"
+                    : "1px solid transparent",
+                  borderRadius: "12px",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  fontSize: "0.9rem",
+                  fontWeight: isActive ? "600" : "500",
+                  boxShadow: isActive 
+                    ? "0 0 20px " + category.color + "20"
+                    : "none"
+                }}
+              >
+                <span style={{ 
+                  color: isActive ? category.color : "rgba(255,255,255,0.5)",
+                  transition: "color 0.3s"
+                }}>
+                  {category.icon}
+                </span>
+                {category.title}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Container animé pour les skills */}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          width: "100%"
-        }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCategory}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "24px",
-                maxWidth: "1400px",
-                width: "100%"
-              }}
-            >
-              {categories[activeCategory].skills.map((skill, index) => (
+        {/* Skills grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "20px"
+            }}
+          >
+            {categories[activeCategory].skills.map(function(skill, index) {
+              const isHovered = hoveredSkill === skill.name;
+              
+              return (
                 <motion.div
                   key={skill.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.4 }}
+                  transition={{ delay: index * 0.05, duration: 0.3 }}
+                  onMouseEnter={function() { setHoveredSkill(skill.name); }}
+                  onMouseLeave={function() { setHoveredSkill(null); }}
                   style={{
-                    backgroundColor: "#111",
-                    border: "1px solid #1a1a1a",
-                    borderRadius: "20px",
-                    padding: "40px 32px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    textAlign: "left",
-                    transition: "all 0.3s ease",
-                    cursor: "pointer",
+                    background: "#0a0a0f",
+                    borderRadius: "16px",
+                    padding: "28px",
                     position: "relative",
-                    overflow: "hidden"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-8px)";
-                    e.currentTarget.style.borderColor = "#333";
-                    e.currentTarget.style.boxShadow = "0 20px 40px rgba(0,0,0,0.4)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "translateY(0)";
-                    e.currentTarget.style.borderColor = "#1a1a1a";
-                    e.currentTarget.style.boxShadow = "none";
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                    transform: isHovered ? "translateY(-5px)" : "translateY(0)",
+                    boxShadow: isHovered 
+                      ? "0 20px 40px rgba(0,0,0,0.4), 0 0 30px " + skill.color + "15"
+                      : "0 5px 20px rgba(0,0,0,0.2)"
                   }}
                 >
-                  {/* Icône avec cercle coloré */}
+                  {/* Bordure dégradée */}
                   <div style={{
-                    width: "70px",
-                    height: "70px",
-                    marginBottom: "24px",
+                    position: "absolute",
+                    inset: 0,
+                    borderRadius: "16px",
+                    padding: "1px",
+                    background: isHovered 
+                      ? "linear-gradient(135deg, " + skill.color + "50, transparent 50%, " + skill.color + "30)"
+                      : "linear-gradient(135deg, rgba(255,255,255,0.1), transparent 50%, rgba(255,255,255,0.05))",
+                    WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                    WebkitMaskComposite: "xor",
+                    maskComposite: "exclude",
+                    pointerEvents: "none",
+                    transition: "all 0.4s ease"
+                  }} />
+
+                  {/* Glow en haut */}
+                  {isHovered && (
+                    <div style={{
+                      position: "absolute",
+                      top: "-50%",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: "100%",
+                      height: "100px",
+                      background: "radial-gradient(ellipse, " + skill.color + "20 0%, transparent 70%)",
+                      pointerEvents: "none"
+                    }} />
+                  )}
+
+                  {/* Icon */}
+                  <div style={{
+                    width: "56px",
+                    height: "56px",
+                    marginBottom: "20px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    borderRadius: "50%",
-                    backgroundColor: "#1a1a1a",
-                    border: `2px solid ${skill.color}20`,
-                    position: "relative"
+                    borderRadius: "14px",
+                    background: skill.color + "10",
+                    border: "1px solid " + skill.color + "20",
+                    position: "relative",
+                    transition: "all 0.3s ease",
+                    transform: isHovered ? "scale(1.1)" : "scale(1)",
+                    boxShadow: isHovered ? "0 0 20px " + skill.color + "30" : "none"
                   }}>
                     <img 
                       src={skill.icon}
                       alt={skill.name}
                       style={{
-                        width: "40px",
-                        height: "40px",
-                        objectFit: "contain"
+                        width: "32px",
+                        height: "32px",
+                        objectFit: "contain",
+                        filter: isHovered ? "drop-shadow(0 0 8px " + skill.color + "60)" : "none",
+                        transition: "filter 0.3s ease"
                       }}
                     />
                   </div>
 
-                  {/* Nom */}
+                  {/* Name */}
                   <h3 style={{
-                    fontSize: "1.5rem",
+                    fontSize: "1.2rem",
                     fontWeight: "700",
-                    marginBottom: "12px",
-                    color: textColor
+                    marginBottom: "8px",
+                    color: "#fff",
+                    transition: "all 0.3s ease",
+                    textShadow: isHovered ? "0 0 20px " + skill.color + "40" : "none"
                   }}>
                     {skill.name}
                   </h3>
 
                   {/* Description */}
                   <p style={{
-                    fontSize: "0.95rem",
-                    lineHeight: "1.6",
-                    opacity: 0.6,
+                    fontSize: "0.85rem",
+                    lineHeight: "1.5",
+                    color: "rgba(255,255,255,0.5)",
                     margin: 0
                   }}>
                     {skill.description}
                   </p>
+
+                  {/* Petit indicateur de couleur */}
+                  <div style={{
+                    position: "absolute",
+                    bottom: "20px",
+                    right: "20px",
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: skill.color,
+                    opacity: isHovered ? 1 : 0.3,
+                    transition: "opacity 0.3s ease",
+                    boxShadow: isHovered ? "0 0 10px " + skill.color : "none"
+                  }} />
                 </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
 
       </div>
     </section>
   );
 });
-
-SkillsSection.displayName = "SkillsSection";
 
 export default SkillsSection;

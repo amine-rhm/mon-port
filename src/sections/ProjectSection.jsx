@@ -1,63 +1,85 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // ============================================
-// COMPOSANT: Card de projet avec effet 3D
+// COMPOSANT: Card de projet style flat avec effets
 // ============================================
-const ProjectCard = ({ project, scrollProgress }) => {
+const ProjectCard = ({ project, isActive }) => {
+  const accentColor = project.accentColor || '#22c55e';
   const [isHovered, setIsHovered] = useState(false);
-
+  
   return (
-    <motion.div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <div
+      onMouseEnter={function() { setIsHovered(true); }}
+      onMouseLeave={function() { setIsHovered(false); }}
       style={{
-        minWidth: '400px',
-        height: '550px',
+        width: '300px',
+        minWidth: '300px',
+        height: '420px',
+        background: '#0d0d12',
+        borderRadius: '20px',
+        overflow: 'hidden',
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        transformStyle: 'preserve-3d',
-        perspective: '1000px'
+        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+        transform: isHovered && isActive ? 'scale(1.02) translateY(-5px)' : 'scale(1)',
+        boxShadow: isActive 
+          ? '0 0 40px ' + accentColor + '25, 0 20px 40px rgba(0,0,0,0.4)'
+          : '0 10px 30px rgba(0,0,0,0.3)'
       }}
-      whileHover={{
-        scale: 1.05,
-        rotateY: 5,
-        z: 50
-      }}
-      transition={{ duration: 0.3 }}
     >
-      {/* Image Container */}
-      <motion.div
-        style={{
-          position: 'relative',
-          borderRadius: '16px',
-          overflow: 'hidden',
-          background: 'linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          height: '350px',
-          cursor: 'pointer',
-          boxShadow: '0 10px 40px rgba(0,0,0,0.5)'
-        }}
-        whileHover={{ 
-          borderColor: project.accentColor || 'rgba(102,126,234,0.5)',
-          boxShadow: `0 20px 60px ${project.accentColor || 'rgba(102,126,234,0.3)'}80`
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        {/* Image */}
+      {/* Bordure dégradée animée */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        borderRadius: '20px',
+        padding: '1px',
+        background: isActive 
+          ? 'linear-gradient(135deg, ' + accentColor + '60, transparent 50%, ' + accentColor + '30)'
+          : 'linear-gradient(135deg, rgba(255,255,255,0.1), transparent 50%, rgba(255,255,255,0.05))',
+        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+        WebkitMaskComposite: 'xor',
+        maskComposite: 'exclude',
+        pointerEvents: 'none',
+        transition: 'all 0.4s ease'
+      }} />
+
+      {/* Glow effect en haut */}
+      {isActive && (
+        <div style={{
+          position: 'absolute',
+          top: '-50%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '80%',
+          height: '100px',
+          background: 'radial-gradient(ellipse, ' + accentColor + '20 0%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 1
+        }} />
+      )}
+
+      {/* Image */}
+      <div style={{ 
+        height: '45%', 
+        overflow: 'hidden', 
+        position: 'relative',
+        borderRadius: '20px 20px 0 0'
+      }}>
         {project.image ? (
-          <motion.img
+          <img
             src={project.image}
             alt={project.title}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'top'
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover', 
+              objectPosition: 'top',
+              transition: 'transform 0.5s ease',
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
             }}
-            animate={{ scale: isHovered ? 1.1 : 1 }}
-            transition={{ duration: 0.4 }}
           />
         ) : (
           <div style={{
@@ -66,173 +88,306 @@ const ProjectCard = ({ project, scrollProgress }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: `linear-gradient(135deg, ${project.accentColor || '#667eea'}20 0%, #0a0a0a 100%)`
+            background: 'linear-gradient(135deg, #16161d 0%, #0d0d12 100%)'
           }}>
-            <span style={{ fontSize: '4rem' }}>{project.emoji || '💻'}</span>
+            <span style={{ 
+              fontSize: '3.5rem',
+              filter: 'drop-shadow(0 0 20px ' + accentColor + '40)'
+            }}>
+              {project.emoji || '💻'}
+            </span>
           </div>
         )}
-
-        {/* Hover overlay with links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'rgba(0,0,0,0.75)',
-            backdropFilter: 'blur(8px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '1rem',
-            zIndex: 4
-          }}
-        >
-          {project.github && (
-            <motion.a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.15, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                width: '55px',
-                height: '55px',
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                textDecoration: 'none'
-              }}
-            >
-              <Github size={24} />
-            </motion.a>
-          )}
-          {project.demo && (
-            <motion.a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.15, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                width: '55px',
-                height: '55px',
-                borderRadius: '50%',
-                background: project.accentColor || '#667eea',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                textDecoration: 'none',
-                boxShadow: `0 5px 20px ${project.accentColor || '#667eea'}60`
-              }}
-            >
-              <ExternalLink size={24} />
-            </motion.a>
-          )}
-        </motion.div>
-      </motion.div>
+        
+        {/* Reflet en haut de l'image */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '60%',
+          background: 'linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%)',
+          pointerEvents: 'none'
+        }} />
+        
+        {/* Gradient overlay en bas */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '50%',
+          background: 'linear-gradient(transparent, #0d0d12)',
+          pointerEvents: 'none'
+        }} />
+      </div>
 
       {/* Content */}
-      <div style={{ padding: '1.5rem 0.5rem', flex: 1 }}>
-        <h3 style={{
-          fontSize: '1.6rem',
-          fontWeight: 700,
-          color: '#fff',
-          marginBottom: '0.75rem',
-          letterSpacing: '-0.5px'
+      <div style={{ padding: '1.25rem', flex: 1, display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 2 }}>
+        {/* Titre avec effet glow */}
+        <h3 style={{ 
+          fontSize: '1.2rem', 
+          fontWeight: 700, 
+          color: '#fff', 
+          marginBottom: '0.6rem',
+          textShadow: isActive ? '0 0 20px ' + accentColor + '40' : 'none',
+          transition: 'all 0.3s ease'
         }}>
           {project.title}
         </h3>
 
-        <p style={{
-          fontSize: '0.95rem',
-          color: 'rgba(255,255,255,0.6)',
-          lineHeight: 1.6,
-          marginBottom: '1rem'
+        <p style={{ 
+          fontSize: '0.8rem', 
+          color: 'rgba(255,255,255,0.5)', 
+          lineHeight: 1.5, 
+          marginBottom: '0.8rem', 
+          flex: 1,
+          overflow: 'hidden',
+          display: '-webkit-box',
+          WebkitLineClamp: 3,
+          WebkitBoxOrient: 'vertical'
         }}>
-          {project.description.length > 130 
-            ? project.description.substring(0, 130) + '...' 
-            : project.description
-          }
+          {project.description}
         </p>
 
-        {/* Technologies */}
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '0.5rem'
-        }}>
-          {project.technologies.slice(0, 4).map((tech) => (
-            <span
-              key={tech}
+        {/* Technologies avec effet hover */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '0.8rem' }}>
+          {project.technologies && project.technologies.slice(0, 4).map(function(tech, idx) {
+            return (
+              <span
+                key={idx}
+                style={{
+                  padding: '0.25rem 0.55rem',
+                  borderRadius: '6px',
+                  fontSize: '0.65rem',
+                  background: isActive ? accentColor + '15' : 'rgba(255,255,255,0.05)',
+                  color: isActive ? accentColor : 'rgba(255,255,255,0.6)',
+                  border: '1px solid ' + (isActive ? accentColor + '30' : 'rgba(255,255,255,0.08)'),
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {tech}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Buttons avec effet glow */}
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                padding: '0.4rem 0.9rem',
-                borderRadius: '20px',
-                fontSize: '0.8rem',
-                fontWeight: 500,
-                background: 'rgba(255,255,255,0.05)',
-                color: 'rgba(255,255,255,0.7)',
-                border: '1px solid rgba(255,255,255,0.1)'
+                flex: 1,
+                padding: '0.55rem 0.8rem',
+                borderRadius: '10px',
+                background: isActive ? accentColor : 'transparent',
+                border: isActive ? 'none' : '1px solid rgba(255,255,255,0.15)',
+                color: '#fff',
+                textDecoration: 'none',
+                fontSize: '0.75rem',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.3rem',
+                boxShadow: isActive ? '0 5px 20px ' + accentColor + '40' : 'none',
+                transition: 'all 0.3s ease'
               }}
             >
-              {tech}
-            </span>
-          ))}
+              Site en direct
+            </a>
+          )}
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                flex: 1,
+                padding: '0.55rem 0.8rem',
+                borderRadius: '10px',
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                color: 'rgba(255,255,255,0.7)',
+                textDecoration: 'none',
+                fontSize: '0.75rem',
+                fontWeight: 500,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.3rem',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <Github size={12} />
+              GitHub
+            </a>
+          )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 // ============================================
-// COMPOSANT PRINCIPAL: ProjectSection avec scroll 3D
+// COMPOSANT PRINCIPAL: Carrousel horizontal
 // ============================================
-const ProjectSection = React.forwardRef(({ 
-  projects = [],
-  theme = 'dark'
-}, ref) => {
+const ProjectSection = React.forwardRef(function ProjectSection(props, ref) {
+  const { projects = [] } = props;
+  const [activeIndex, setActiveIndex] = useState(2);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
   const titleRef = useRef(null);
-  const scrollContainerRef = useRef(null);
+  const scrollRef = useRef(null);
   const isTitleInView = useInView(titleRef, { once: true });
 
-  const enhancedProjects = projects.map((project, index) => ({
-    ...project,
-    accentColor: project.accentColor || ['#4ade80', '#667eea', '#f472b6', '#fbbf24', '#22d3ee', '#a78bfa'][index % 6],
-    emoji: project.emoji || ['💻', '🚀', '🎨', '📊', '🛒', '📚'][index % 6]
-  }));
+  const colors = ['#22c55e', '#3b82f6', '#f472b6', '#eab308', '#06b6d4', '#a855f7'];
+
+  const enhancedProjects = projects.map(function(project, index) {
+    return {
+      ...project,
+      accentColor: project.accentColor || colors[index % 6],
+      emoji: project.emoji || '💻'
+    };
+  });
+
+  const handlePrev = function() {
+    setActiveIndex(function(prev) {
+      return prev === 0 ? enhancedProjects.length - 1 : prev - 1;
+    });
+  };
+
+  const handleNext = function() {
+    setActiveIndex(function(prev) {
+      return prev === enhancedProjects.length - 1 ? 0 : prev + 1;
+    });
+  };
+
+  // Mouse drag handlers
+  const handleMouseDown = function(e) {
+    setIsDragging(true);
+    setStartX(e.pageX);
+  };
+
+  const handleMouseMove = function(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX;
+    const diff = startX - x;
+    
+    if (Math.abs(diff) > 80) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+      setIsDragging(false);
+    }
+  };
+
+  const handleMouseUp = function() {
+    setIsDragging(false);
+  };
+
+  const handleMouseLeave = function() {
+    setIsDragging(false);
+  };
+
+  // Touch handlers for mobile
+  const handleTouchStart = function(e) {
+    setStartX(e.touches[0].pageX);
+  };
+
+  const handleTouchMove = function(e) {
+    const x = e.touches[0].pageX;
+    const diff = startX - x;
+    
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+      setStartX(x);
+    }
+  };
+
+  // Wheel scroll handler
+  const handleWheel = function(e) {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      e.preventDefault();
+      if (e.deltaX > 30) {
+        handleNext();
+      } else if (e.deltaX < -30) {
+        handlePrev();
+      }
+    }
+  };
+
+  if (enhancedProjects.length === 0) {
+    return (
+      <section ref={ref} id="projets" style={{ padding: '8rem 0', background: '#050507' }}>
+        <div style={{ textAlign: 'center', color: '#fff' }}>Aucun projet</div>
+      </section>
+    );
+  }
+
+  // Calculer les positions des cartes
+  const getCardStyle = function(index) {
+    const total = enhancedProjects.length;
+    let diff = index - activeIndex;
+    
+    // Wrap around
+    if (diff > total / 2) diff = diff - total;
+    if (diff < -total / 2) diff = diff + total;
+    
+    const baseOffset = diff * 340; // Espacement entre cartes
+    
+    // Décalage vertical - carte du milieu plus haute
+    const verticalOffset = Math.abs(diff) === 0 ? -30 : Math.abs(diff) * 20;
+    
+    // Scale - carte du milieu plus grande
+    const scale = diff === 0 ? 1.08 : (1 - Math.abs(diff) * 0.08);
+    
+    // Légère rotation
+    const rotate = diff * 2;
+    
+    return {
+      transform: 'translateX(' + baseOffset + 'px) translateY(' + verticalOffset + 'px) scale(' + scale + ') rotate(' + rotate + 'deg)',
+      opacity: Math.abs(diff) <= 2 ? (1 - Math.abs(diff) * 0.25) : 0,
+      zIndex: 10 - Math.abs(diff),
+      display: Math.abs(diff) > 3 ? 'none' : 'block'
+    };
+  };
 
   return (
-    <motion.section
+    <section
       ref={ref}
       id="projets"
       style={{
-        padding: '8rem 0 8rem 0',
-        background: '#0a0a0a',
+        padding: '6rem 0 4rem 0',
+        background: '#050507',
         position: 'relative',
+        minHeight: '100vh',
         overflow: 'hidden'
       }}
     >
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 2rem 0 60px', position: 'relative', zIndex: 1 }}>
-        
-        {/* Header */}
-        <div ref={titleRef} style={{ marginBottom: '4rem' }}>
+      {/* Header */}
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem', marginBottom: '3rem' }}>
+        <div ref={titleRef}>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
             style={{
-              fontSize: '0.9rem',
-              opacity: 0.6,
-              marginBottom: '15px',
+              fontSize: '0.85rem',
+              color: 'rgba(255,255,255,0.4)',
+              marginBottom: '0.75rem',
               letterSpacing: '2px',
-              textTransform: 'uppercase',
-              color: '#fff'
+              textTransform: 'uppercase'
             }}
           >
             Mon travail
@@ -243,11 +398,11 @@ const ProjectSection = React.forwardRef(({
             animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
             style={{
-              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontSize: 'clamp(2rem, 4vw, 3rem)',
               fontWeight: 700,
               color: '#fff',
-              marginBottom: '1.5rem',
-              letterSpacing: '-2px'
+              marginBottom: '0.75rem',
+              letterSpacing: '-1px'
             }}
           >
             Projets
@@ -258,107 +413,219 @@ const ProjectSection = React.forwardRef(({
             animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{
-              fontSize: '1.1rem',
-              color: 'rgba(255,255,255,0.6)',
-              maxWidth: '700px',
-              lineHeight: 1.7
+              fontSize: '1rem',
+              color: 'rgba(255,255,255,0.5)',
+              maxWidth: '550px',
+              lineHeight: 1.6
             }}
           >
-            Voici une sélection de projets sur lesquels j'ai travaillé, illustrant mon
-            expérience des technologies web et mobiles modernes.
+            Voici une sélection de projets sur lesquels j'ai travaillé.
           </motion.p>
         </div>
       </div>
 
-      {/* Scroll horizontal container avec effet 3D */}
+      {/* Carrousel */}
       <div 
-        ref={scrollContainerRef}
-        style={{ 
+        ref={scrollRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onWheel={handleWheel}
+        style={{
           position: 'relative',
-          width: '100%',
-          overflowX: 'auto',
-          overflowY: 'hidden',
-          perspective: '1500px',
-          perspectiveOrigin: 'center center',
-          paddingLeft: '60px',
-          paddingRight: '60px',
-          paddingBottom: '20px'
+          height: '450px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: isDragging ? 'grabbing' : 'grab',
+          userSelect: 'none'
         }}
       >
-        <motion.div
+        {/* Container des cartes */}
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: isDragging ? 'none' : 'auto'
+        }}>
+          {enhancedProjects.map(function(project, index) {
+            const style = getCardStyle(index);
+            
+            return (
+              <div
+                key={project.id || index}
+                onClick={function() { setActiveIndex(index); }}
+                style={{
+                  position: 'absolute',
+                  transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                  cursor: 'pointer',
+                  ...style
+                }}
+              >
+                <ProjectCard 
+                  project={project} 
+                  isActive={index === activeIndex} 
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Navigation gauche */}
+        <button
+          onClick={handlePrev}
           style={{
+            position: 'absolute',
+            left: '3%',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: '45px',
+            height: '45px',
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: '#fff',
+            cursor: 'pointer',
             display: 'flex',
-            gap: '40px',
-            width: 'fit-content',
-            transformStyle: 'preserve-3d'
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 20,
+            transition: 'all 0.3s'
           }}
+          onMouseEnter={function(e) { e.target.style.background = 'rgba(255,255,255,0.1)'; }}
+          onMouseLeave={function(e) { e.target.style.background = 'rgba(255,255,255,0.05)'; }}
         >
-          {enhancedProjects.map((project, index) => (
-            <motion.div
-              key={project.id || index}
-              initial={{ opacity: 0, x: 100, rotateY: -15 }}
-              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ 
-                duration: 0.6, 
-                delay: index * 0.1,
-                ease: [0.215, 0.61, 0.355, 1]
-              }}
-              style={{
-                transformStyle: 'preserve-3d'
-              }}
-            >
-              <ProjectCard 
-                project={project}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+          <ChevronLeft size={20} />
+        </button>
+
+        {/* Navigation droite */}
+        <button
+          onClick={handleNext}
+          style={{
+            position: 'absolute',
+            right: '3%',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            width: '45px',
+            height: '45px',
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: '#fff',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 20,
+            transition: 'all 0.3s'
+          }}
+          onMouseEnter={function(e) { e.target.style.background = 'rgba(255,255,255,0.1)'; }}
+          onMouseLeave={function(e) { e.target.style.background = 'rgba(255,255,255,0.05)'; }}
+        >
+          <ChevronRight size={20} />
+        </button>
+
+        {/* Fade edges */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          width: '150px',
+          height: '100%',
+          background: 'linear-gradient(90deg, #050507 0%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 15
+        }} />
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          width: '150px',
+          height: '100%',
+          background: 'linear-gradient(270deg, #050507 0%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 15
+        }} />
       </div>
 
-      {/* Gradient overlays pour effet de fade */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '150px',
-        height: '100%',
-        background: 'linear-gradient(90deg, #0a0a0a 0%, transparent 100%)',
-        pointerEvents: 'none',
-        zIndex: 2
-      }} />
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        width: '150px',
-        height: '100%',
-        background: 'linear-gradient(270deg, #0a0a0a 0%, transparent 100%)',
-        pointerEvents: 'none',
-        zIndex: 2
-      }} />
+      {/* Dots indicator */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        gap: '0.4rem', 
+        marginTop: '1.5rem' 
+      }}>
+        {enhancedProjects.map(function(project, index) {
+          return (
+            <button
+              key={index}
+              onClick={function() { setActiveIndex(index); }}
+              style={{
+                width: activeIndex === index ? '20px' : '6px',
+                height: '6px',
+                borderRadius: '3px',
+                background: activeIndex === index 
+                  ? '#fff'
+                  : 'rgba(255,255,255,0.2)',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s'
+              }}
+            />
+          );
+        })}
+      </div>
 
-      {/* Custom scrollbar styling */}
-      <style>{`
-        #projets div[style*="overflowX"]::-webkit-scrollbar {
-          height: 8px;
-        }
-        #projets div[style*="overflowX"]::-webkit-scrollbar-track {
-          background: rgba(255,255,255,0.05);
-          border-radius: 10px;
-        }
-        #projets div[style*="overflowX"]::-webkit-scrollbar-thumb {
-          background: rgba(255,255,255,0.2);
-          border-radius: 10px;
-        }
-        #projets div[style*="overflowX"]::-webkit-scrollbar-thumb:hover {
-          background: rgba(255,255,255,0.3);
-        }
-      `}</style>
-    </motion.section>
+      {/* Bouton Plus de projets sur GitHub */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        marginTop: '2rem',
+        marginBottom: '0',
+        padding: '0 3rem'
+      }}>
+        <a
+          href="https://github.com/amine-rhm"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            padding: '1rem 3rem',
+            width: '100%',
+            maxWidth: '600px',
+            borderRadius: '50px',
+            background: 'transparent',
+            border: '1px solid rgba(255,255,255,0.15)',
+            color: 'rgba(255,255,255,0.8)',
+            textDecoration: 'none',
+            fontSize: '0.95rem',
+            fontWeight: 500,
+            transition: 'all 0.3s ease',
+            cursor: 'pointer'
+          }}
+          onMouseEnter={function(e) { 
+            e.target.style.borderColor = 'rgba(255,255,255,0.3)';
+            e.target.style.background = 'rgba(255,255,255,0.05)';
+          }}
+          onMouseLeave={function(e) { 
+            e.target.style.borderColor = 'rgba(255,255,255,0.15)';
+            e.target.style.background = 'transparent';
+          }}
+        >
+          Plus de projets sur <Github size={18} />
+        </a>
+      </div>
+    </section>
   );
 });
-
-ProjectSection.displayName = "ProjectSection";
 
 export default ProjectSection;
