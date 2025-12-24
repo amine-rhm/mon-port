@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Github, Linkedin, FileText } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import cvPdf from '../assets/amin (1).pdf';
 import ph from '../assets/photo.jpg';
 
 // ============================================
