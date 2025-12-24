@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // ============================================
 // Logo Code
@@ -94,30 +95,40 @@ const ThemeToggle = ({ theme, toggleTheme, isDark }) => (
 // ============================================
 // Toggle Langue
 // ============================================
-const LanguageToggle = ({ lang, toggleLang, isDark }) => (
-  <motion.button
-    onClick={toggleLang}
-    whileHover={{ scale: 1.1 }}
-    whileTap={{ scale: 0.9 }}
-    style={{
-      height: '42px',
-      padding: '0 14px',
-      borderRadius: '50px',
-      border: 'none',
-      background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
-      cursor: 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '5px',
-      color: isDark ? '#fff' : '#000',
-      fontSize: '0.85rem',
-      fontWeight: 500
-    }}
-  >
-    <Globe size={16} />
-    {lang}
-  </motion.button>
-);
+const LanguageToggle = ({ isDark }) => {
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language === 'fr' ? 'Fr' : 'En';
+
+  const toggleLang = () => {
+    const newLang = i18n.language === 'fr' ? 'en' : 'fr';
+    i18n.changeLanguage(newLang);
+  };
+
+  return (
+    <motion.button
+      onClick={toggleLang}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      style={{
+        height: '42px',
+        padding: '0 14px',
+        borderRadius: '50px',
+        border: 'none',
+        background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px',
+        color: isDark ? '#fff' : '#000',
+        fontSize: '0.85rem',
+        fontWeight: 500
+      }}
+    >
+      <Globe size={16} />
+      {currentLang}
+    </motion.button>
+  );
+};
 
 // ============================================
 // COMPOSANT PRINCIPAL
@@ -130,13 +141,11 @@ const Header = ({
 }) => {
   const [showNavbar, setShowNavbar] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [lang, setLang] = useState('Fr');
+  const { t } = useTranslation();
 
   const isDark = theme === 'dark';
   const textColor = isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)';
   const textColorHover = isDark ? '#fff' : '#000';
-
-  const toggleLang = () => setLang(prev => prev === 'Fr' ? 'En' : 'Fr');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,9 +156,9 @@ const Header = ({
   }, []);
 
   const navItems = [
-    { id: 'apropos', label: 'À propos' },
-    { id: 'projets', label: 'Projets' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'apropos', label: t('nav.about') },
+    { id: 'projets', label: t('nav.projects') },
+    { id: 'contact', label: t('nav.contact') }
   ];
 
   const handleNavClick = (sectionId) => {
@@ -221,7 +230,7 @@ const Header = ({
 
               <div className="toggles-container" style={{ display: 'flex', gap: '0.5rem' }}>
                 <ThemeToggle theme={theme} toggleTheme={toggleTheme} isDark={isDark} />
-                <LanguageToggle lang={lang} toggleLang={toggleLang} isDark={isDark} />
+                <LanguageToggle isDark={isDark} />
               </div>
 
               <button
@@ -325,7 +334,7 @@ const Header = ({
 
               <div style={{ display: 'flex', gap: '0.6rem', marginLeft: '0.5rem' }}>
                 <ThemeToggle theme={theme} toggleTheme={toggleTheme} isDark={isDark} />
-                <LanguageToggle lang={lang} toggleLang={toggleLang} isDark={isDark} />
+                <LanguageToggle isDark={isDark} />
               </div>
             </motion.div>
           </motion.div>
@@ -371,10 +380,10 @@ const Header = ({
 
             <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', display: 'flex', gap: '0.5rem' }}>
               <ThemeToggle theme={theme} toggleTheme={toggleTheme} isDark={isDark} />
-              <LanguageToggle lang={lang} toggleLang={toggleLang} isDark={isDark} />
+              <LanguageToggle isDark={isDark} />
             </div>
 
-            {[{ id: 'accueil', label: 'Accueil' }, ...navItems].map((item, index) => (
+            {[{ id: 'accueil', label: t('nav.home') }, ...navItems].map((item, index) => (
               <motion.button
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}

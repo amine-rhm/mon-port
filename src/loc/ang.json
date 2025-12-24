@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "home": {
+    "greeting": "Hi, I'm",
+    "name": "Rahmouni Mohamed Amine",
+    "title1": "Full Stack",
+    "title2": "Developer",
+    "description1": "I'm a web developer and I love turning ideas into functional and beautiful web applications. Over the past few years, I've built projects with modern technologies like",
+    "description2": "always striving to optimize code for a smooth user experience.",
+    "description3": "I enjoy creating useful, intuitive things — and sometimes just for fun (why not?). Whether it's a SaaS platform, a mobile app, or a small personal project that grew bigger, I love bringing concepts to life and learning new things along the way. I'm currently exploring backend architecture, system design, and a bit of mobile development."
+  },
+  "skills": {
+    "subtitle": "Technologies",
+    "title": "What I use",
+    "description": "Here are the tools and technologies I use to bring my ideas to life.",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "mobile": "Mobile",
+      "data": "Data",
+      "design": "Design",
+      "tools": "Tools"
+    },
+    "descriptions": {
+      "react": "Modern UI library for building interactive interfaces",
+      "javascript": "Dynamic programming language for the web",
+      "typescript": "Typed superset of JavaScript for better development",
+      "nextjs": "Full-featured React framework for production",
+      "tailwind": "Utility-first CSS framework for rapid styling",
+      "nodejs": "JavaScript runtime for server-side development",
+      "php": "Server-side scripting language for the web",
+      "python": "Versatile language for backend development",
+      "java": "Enterprise-level programming language",
+      "cpp": "High-performance programming language",
+      "c": "Low-level programming language",
+      "express": "Fast web framework for Node.js",
+      "firebase": "Google's Backend-as-a-Service platform",
+      "postgresql": "Advanced open-source relational database",
+      "mongodb": "NoSQL database for modern applications",
+      "reactnative": "Cross-platform mobile app development",
+      "pandas": "Data manipulation and analysis library",
+      "numpy": "Numerical computing library for Python",
+      "powerbi": "Microsoft's business analytics solution",
+      "figma": "Collaborative design and prototyping tool",
+      "photoshop": "Image editing and graphic design",
+      "vscode": "Powerful code editor with many extensions",
+      "git": "Version control system for code management",
+      "docker": "Containerization platform for applications",
+      "terminal": "Command line interface for system operations",
+      "postman": "API testing and development platform"
+    }
+  },
+  "projects": {
+    "subtitle": "My work",
+    "title": "Projects",
+    "description": "Here's a selection of projects I've worked on.",
+    "liveDemo": "Live site",
+    "moreOnGithub": "More projects on",
+    "noProjects": "No projects"
+  },
+  "contact": {
+    "subtitle": "Let's talk",
+    "title": "Contact",
+    "findMe": "You can find me on...",
+    "description1": "Got an idea, a project, or just something cool to build? I'm all ears.",
+    "description2": "I'm always open to interesting conversations, collaborations, and exchanges with other developers.",
+    "github": {
+      "title": "GitHub",
+      "handle": "@amine-rhm",
+      "description": "Check out my projects and code"
+    },
+    "linkedin": {
+      "title": "LinkedIn",
+      "handle": "Mohamed Amine Rahmouni",
+      "description": "Connect with me professionally"
+    },
+    "email": {
+      "title": "E-mail",
+      "handle": "rahmouni.mohamedamine1@gmail.com",
+      "description": "Send me a message"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved"
+  }
+}

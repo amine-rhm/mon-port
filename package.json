@@ -3,18 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-"scripts": {
-  "dev": "vite",
-  "build": "tsc -b && vite build && echo '/* /index.html 200' > dist/_redirects",
-  "lint": "eslint .",
-  "preview": "vite preview"
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build && echo '/* /index.html 200' > dist/_redirects",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "emailjs-com": "^3.2.0",
     "framer-motion": "^12.23.12",
+    "i18next": "^25.7.3",
     "lucide-react": "^0.525.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^16.5.0",
     "react-icons": "^5.5.0"
   },
   "devDependencies": {

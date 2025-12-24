@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "contact": "Contact"
+  },
+  "home": {
+    "greeting": "Salut, je suis",
+    "name": "Rahmouni Mohamed Amine",
+    "title1": "Développeur",
+    "title2": "Full Stack",
+    "description1": "Je suis développeur web et j'aime transformer des idées en applications web fonctionnelles et esthétiques. Ces dernières années, j'ai développé des projets avec des technologies modernes comme",
+    "description2": "en cherchant toujours à optimiser le code pour une expérience utilisateur fluide.",
+    "description3": "J'aime créer des choses utiles, intuitives et parfois juste pour le plaisir (et pourquoi pas ?). Qu'il s'agisse d'une plateforme SaaS, d'une application mobile ou d'un petit projet personnel qui a pris de l'ampleur, j'adore donner vie à des concepts et apprendre de nouvelles choses en cours de route. J'explore actuellement l'architecture backend, la conception de systèmes et un peu le développement mobile."
+  },
+  "skills": {
+    "subtitle": "Technologies",
+    "title": "Ce que j'utilise",
+    "description": "Voici les outils et technologies que j'utilise pour donner vie à mes idées.",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "mobile": "Mobile",
+      "data": "Data",
+      "design": "Design",
+      "tools": "Outils"
+    },
+    "descriptions": {
+      "react": "Bibliothèque UI moderne pour créer des interfaces interactives",
+      "javascript": "Langage de programmation dynamique pour le web",
+      "typescript": "Superset typé de JavaScript pour un meilleur développement",
+      "nextjs": "Framework React complet pour la production",
+      "tailwind": "Framework CSS utility-first pour un style rapide",
+      "nodejs": "Runtime JavaScript pour le développement côté serveur",
+      "php": "Langage de script côté serveur pour le web",
+      "python": "Langage polyvalent pour le backend",
+      "java": "Langage de programmation de niveau entreprise",
+      "cpp": "Langage de programmation haute performance",
+      "c": "Langage de programmation bas niveau",
+      "express": "Framework web rapide pour Node.js",
+      "firebase": "Plateforme Backend-as-a-Service de Google",
+      "postgresql": "Base de données relationnelle open source avancée",
+      "mongodb": "Base de données NoSQL pour applications modernes",
+      "reactnative": "Développement d'applications mobiles multiplateformes",
+      "pandas": "Bibliothèque de manipulation et d'analyse de données",
+      "numpy": "Bibliothèque de calcul numérique pour Python",
+      "powerbi": "Solution d'analyse commerciale de Microsoft",
+      "figma": "Outil de conception et de prototypage collaboratif",
+      "photoshop": "Édition d'images et conception graphique",
+      "vscode": "Éditeur de code puissant avec de nombreuses extensions",
+      "git": "Système de contrôle de version pour la gestion du code",
+      "docker": "Plateforme de conteneurisation pour applications",
+      "terminal": "Interface en ligne de commande pour opérations système",
+      "postman": "Plateforme de test et développement d'API"
+    }
+  },
+  "projects": {
+    "subtitle": "Mon travail",
+    "title": "Projets",
+    "description": "Voici une sélection de projets sur lesquels j'ai travaillé.",
+    "liveDemo": "Site en direct",
+    "moreOnGithub": "Plus de projets sur",
+    "noProjects": "Aucun projet"
+  },
+  "contact": {
+    "subtitle": "Parlons ensemble",
+    "title": "Contact",
+    "findMe": "Vous pouvez me trouver sur...",
+    "description1": "Vous avez une idée, un projet, ou simplement quelque chose de sympa à construire ? Je suis tout ouïe.",
+    "description2": "Je suis toujours ouvert aux conversations intéressantes, aux collaborations et aux échanges avec d'autres développeurs.",
+    "github": {
+      "title": "GitHub",
+      "handle": "@amine-rhm",
+      "description": "Découvrez mes projets et mon code"
+    },
+    "linkedin": {
+      "title": "LinkedIn",
+      "handle": "Mohamed Amine Rahmouni",
+      "description": "Contactez-moi sur le plan professionnel"
+    },
+    "email": {
+      "title": "E-mail",
+      "handle": "rahmouni.mohamedamine1@gmail.com",
+      "description": "Envoyez-moi un message"
+    }
+  },
+  "footer": {
+    "rights": "Tous droits réservés"
+  }
+}

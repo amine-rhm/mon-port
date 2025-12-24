@@ -4,210 +4,98 @@ import {
   Palette, BarChart3
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const SkillsSection = forwardRef(function SkillsSection(props, ref) {
-  const { theme = "dark", textColor = "#fff" } = props;
+  const { theme = "dark", textColor = "#fff", borderColor, cardBg } = props;
+  const { t } = useTranslation();
   
   const [activeCategory, setActiveCategory] = useState(0);
   const [hoveredSkill, setHoveredSkill] = useState(null);
+
+  const isDark = theme === 'dark';
+  
+  const colors = {
+    bg: isDark ? '#050507' : '#f8f9fa',
+    text: isDark ? '#fff' : '#1a1a1a',
+    textMuted: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)',
+    textSubtle: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)',
+    cardBg: isDark ? '#0a0a0f' : '#ffffff',
+    tabBg: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)',
+    tabBorder: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+    cardBorder: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+    cardBorderHover: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)',
+    shadowBase: isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)',
+    shadowHover: isDark ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.12)',
+  };
   
   const categories = [
     {
-      title: "Frontend",
+      title: t('skills.categories.frontend'),
       icon: <Code size={20} />,
       color: "#61DAFB",
       skills: [
-        {
-          name: "React",
-          description: "Bibliothèque UI moderne pour créer des interfaces interactives",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-          color: "#61DAFB"
-        },
-        {
-          name: "JavaScript",
-          description: "Langage de programmation dynamique pour le web",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-          color: "#F7DF1E"
-        },
-        {
-          name: "TypeScript",
-          description: "Superset typé de JavaScript pour un meilleur développement",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-          color: "#3178C6"
-        },
-        {
-          name: "Next.js",
-          description: "Framework React complet pour la production",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
-          color: "#ffffff"
-        },
-        {
-          name: "Tailwind CSS",
-          description: "Framework CSS utility-first pour un style rapide",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
-          color: "#06B6D4"
-        }
+        { name: "React", description: t('skills.descriptions.react'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", color: "#61DAFB" },
+        { name: "JavaScript", description: t('skills.descriptions.javascript'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", color: "#F7DF1E" },
+        { name: "TypeScript", description: t('skills.descriptions.typescript'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", color: "#3178C6" },
+        { name: "Next.js", description: t('skills.descriptions.nextjs'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", color: isDark ? "#ffffff" : "#000000" },
+        { name: "Tailwind CSS", description: t('skills.descriptions.tailwind'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", color: "#06B6D4" }
       ]
     },
     {
-      title: "Backend",
+      title: t('skills.categories.backend'),
       icon: <Database size={20} />,
       color: "#22c55e",
       skills: [
-        {
-          name: "Node.js",
-          description: "Runtime JavaScript pour le développement côté serveur",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-          color: "#339933"
-        },
-        {
-          name: "PHP",
-          description: "Langage de script côté serveur pour le web",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
-          color: "#777BB4"
-        },
-        {
-          name: "Python",
-          description: "Langage polyvalent pour le backend",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-          color: "#3776AB"
-        },
-        {
-          name: "Java",
-          description: "Langage de programmation de niveau entreprise",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-          color: "#007396"
-        },
-        {
-          name: "C++",
-          description: "Langage de programmation haute performance",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",
-          color: "#00599C"
-        },
-        {
-          name: "C",
-          description: "Langage de programmation bas niveau",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",
-          color: "#A8B9CC"
-        },
-        {
-          name: "Express.js",
-          description: "Framework web rapide pour Node.js",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
-          color: "#ffffff"
-        },
-        {
-          name: "Firebase",
-          description: "Plateforme Backend-as-a-Service de Google",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-          color: "#FFCA28"
-        },
-        {
-          name: "PostgreSQL",
-          description: "Base de données relationnelle open source avancée",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",
-          color: "#336791"
-        },
-        {
-          name: "MongoDB",
-          description: "Base de données NoSQL pour applications modernes",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-          color: "#47A248"
-        }
+        { name: "Node.js", description: t('skills.descriptions.nodejs'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", color: "#339933" },
+        { name: "PHP", description: t('skills.descriptions.php'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg", color: "#777BB4" },
+        { name: "Python", description: t('skills.descriptions.python'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", color: "#3776AB" },
+        { name: "Java", description: t('skills.descriptions.java'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg", color: "#007396" },
+        { name: "C++", description: t('skills.descriptions.cpp'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg", color: "#00599C" },
+        { name: "C", description: t('skills.descriptions.c'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg", color: "#A8B9CC" },
+        { name: "Express.js", description: t('skills.descriptions.express'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", color: isDark ? "#ffffff" : "#000000" },
+        { name: "Firebase", description: t('skills.descriptions.firebase'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg", color: "#FFCA28" },
+        { name: "PostgreSQL", description: t('skills.descriptions.postgresql'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg", color: "#336791" },
+        { name: "MongoDB", description: t('skills.descriptions.mongodb'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg", color: "#47A248" }
       ]
     },
     {
-      title: "Mobile",
+      title: t('skills.categories.mobile'),
       icon: <Smartphone size={20} />,
       color: "#a855f7",
       skills: [
-        {
-          name: "React Native",
-          description: "Développement d'applications mobiles multiplateformes",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-          color: "#61DAFB"
-        }
+        { name: "React Native", description: t('skills.descriptions.reactnative'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", color: "#61DAFB" }
       ]
     },
     {
-      title: "Data",
+      title: t('skills.categories.data'),
       icon: <BarChart3 size={20} />,
       color: "#f59e0b",
       skills: [
-        {
-          name: "Pandas",
-          description: "Bibliothèque de manipulation et d'analyse de données",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
-          color: "#150458"
-        },
-        {
-          name: "NumPy",
-          description: "Bibliothèque de calcul numérique pour Python",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
-          color: "#013243"
-        },
-        {
-          name: "Power BI",
-          description: "Solution d'analyse commerciale de Microsoft",
-          icon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg",
-          color: "#F2C811"
-        }
+        { name: "Pandas", description: t('skills.descriptions.pandas'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg", color: "#150458" },
+        { name: "NumPy", description: t('skills.descriptions.numpy'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg", color: "#013243" },
+        { name: "Power BI", description: t('skills.descriptions.powerbi'), icon: "https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg", color: "#F2C811" }
       ]
     },
     {
-      title: "Design",
+      title: t('skills.categories.design'),
       icon: <Palette size={20} />,
       color: "#ec4899",
       skills: [
-        {
-          name: "Figma",
-          description: "Outil de conception et de prototypage collaboratif",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg",
-          color: "#F24E1E"
-        },
-        {
-          name: "Photoshop",
-          description: "Édition d'images et conception graphique",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg",
-          color: "#31A8FF"
-        }
+        { name: "Figma", description: t('skills.descriptions.figma'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg", color: "#F24E1E" },
+        { name: "Photoshop", description: t('skills.descriptions.photoshop'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg", color: "#31A8FF" }
       ]
     },
     {
-      title: "Outils",
+      title: t('skills.categories.tools'),
       icon: <Settings size={20} />,
       color: "#06b6d4",
       skills: [
-        {
-          name: "VS Code",
-          description: "Éditeur de code puissant avec de nombreuses extensions",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
-          color: "#007ACC"
-        },
-        {
-          name: "Git",
-          description: "Système de contrôle de version pour la gestion du code",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-          color: "#F05032"
-        },
-        {
-          name: "Docker",
-          description: "Plateforme de conteneurisation pour applications",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
-          color: "#2496ED"
-        },
-        {
-          name: "Terminal",
-          description: "Interface en ligne de commande pour opérations système",
-          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg",
-          color: "#4EAA25"
-        },
-        {
-          name: "Postman",
-          description: "Plateforme de test et développement d'API",
-          icon: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",
-          color: "#FF6C37"
-        }
+        { name: "VS Code", description: t('skills.descriptions.vscode'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg", color: "#007ACC" },
+        { name: "Git", description: t('skills.descriptions.git'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", color: "#F05032" },
+        { name: "Docker", description: t('skills.descriptions.docker'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg", color: "#2496ED" },
+        { name: "Terminal", description: t('skills.descriptions.terminal'), icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg", color: "#4EAA25" },
+        { name: "Postman", description: t('skills.descriptions.postman'), icon: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg", color: "#FF6C37" }
       ]
     }
   ];
@@ -219,15 +107,14 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
       ref={ref}
       id="competences"
       style={{
-        background: "#050507",
-        color: "#fff",
+        background: colors.bg,
+        color: colors.text,
         padding: "100px 4rem 80px 4rem",
         minHeight: "100vh",
         position: "relative",
         overflow: "hidden"
       }}
     >
-      {/* Background glow */}
       <div style={{
         position: "absolute",
         top: "20%",
@@ -235,14 +122,13 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
         transform: "translateX(-50%)",
         width: "600px",
         height: "400px",
-        background: "radial-gradient(ellipse, " + activeColor + "08 0%, transparent 70%)",
+        background: "radial-gradient(ellipse, " + activeColor + (isDark ? "08" : "12") + " 0%, transparent 70%)",
         pointerEvents: "none",
         transition: "background 0.5s ease"
       }} />
 
       <div style={{ maxWidth: "1400px", margin: "0 auto", position: "relative", zIndex: 1 }}>
         
-        {/* Header */}
         <div style={{ marginBottom: "60px" }}>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -250,13 +136,13 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
             viewport={{ once: true }}
             style={{
               fontSize: "0.85rem",
-              color: "rgba(255,255,255,0.4)",
+              color: colors.textSubtle,
               marginBottom: "0.75rem",
               letterSpacing: "3px",
               textTransform: "uppercase"
             }}
           >
-            Technologies
+            {t('skills.subtitle')}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -267,10 +153,11 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
               fontSize: "clamp(2rem, 4vw, 3rem)",
               fontWeight: "700",
               marginBottom: "1rem",
-              letterSpacing: "-1px"
+              letterSpacing: "-1px",
+              color: colors.text
             }}
           >
-            Ce que j'utilise
+            {t('skills.title')}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -279,26 +166,25 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
             transition={{ delay: 0.2 }}
             style={{
               fontSize: "1rem",
-              color: "rgba(255,255,255,0.5)",
+              color: colors.textMuted,
               maxWidth: "600px",
               lineHeight: "1.7"
             }}
           >
-            Voici les outils et technologies que j'utilise pour donner vie à mes idées.
+            {t('skills.description')}
           </motion.p>
         </div>
 
-        {/* Tabs navigation */}
-        <div style={{
+        <div className="skills-tabs" style={{
           display: "flex",
           gap: "0.5rem",
           marginBottom: "50px",
           flexWrap: "wrap",
           justifyContent: "center",
           padding: "0.5rem",
-          background: "rgba(255,255,255,0.02)",
+          background: colors.tabBg,
           borderRadius: "16px",
-          border: "1px solid rgba(255,255,255,0.05)"
+          border: "1px solid " + colors.tabBorder
         }}>
           {categories.map(function(category, index) {
             const isActive = activeCategory === index;
@@ -306,6 +192,7 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
               <button
                 key={category.title}
                 onClick={function() { setActiveCategory(index); }}
+                className="skill-tab"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -314,7 +201,7 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                   background: isActive 
                     ? "linear-gradient(135deg, " + category.color + "20, " + category.color + "10)"
                     : "transparent",
-                  color: isActive ? "#fff" : "rgba(255,255,255,0.5)",
+                  color: isActive ? colors.text : colors.textMuted,
                   border: isActive 
                     ? "1px solid " + category.color + "40"
                     : "1px solid transparent",
@@ -329,18 +216,17 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                 }}
               >
                 <span style={{ 
-                  color: isActive ? category.color : "rgba(255,255,255,0.5)",
+                  color: isActive ? category.color : colors.textMuted,
                   transition: "color 0.3s"
                 }}>
                   {category.icon}
                 </span>
-                {category.title}
+                <span className="tab-label">{category.title}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Skills grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -348,6 +234,7 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
+            className="skills-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
@@ -365,8 +252,9 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                   transition={{ delay: index * 0.05, duration: 0.3 }}
                   onMouseEnter={function() { setHoveredSkill(skill.name); }}
                   onMouseLeave={function() { setHoveredSkill(null); }}
+                  className="skill-card"
                   style={{
-                    background: "#0a0a0f",
+                    background: colors.cardBg,
                     borderRadius: "16px",
                     padding: "28px",
                     position: "relative",
@@ -375,11 +263,10 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                     transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
                     transform: isHovered ? "translateY(-5px)" : "translateY(0)",
                     boxShadow: isHovered 
-                      ? "0 20px 40px rgba(0,0,0,0.4), 0 0 30px " + skill.color + "15"
-                      : "0 5px 20px rgba(0,0,0,0.2)"
+                      ? "0 20px 40px " + colors.shadowHover + ", 0 0 30px " + skill.color + "15"
+                      : "0 5px 20px " + colors.shadowBase
                   }}
                 >
-                  {/* Bordure dégradée */}
                   <div style={{
                     position: "absolute",
                     inset: 0,
@@ -387,7 +274,7 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                     padding: "1px",
                     background: isHovered 
                       ? "linear-gradient(135deg, " + skill.color + "50, transparent 50%, " + skill.color + "30)"
-                      : "linear-gradient(135deg, rgba(255,255,255,0.1), transparent 50%, rgba(255,255,255,0.05))",
+                      : "linear-gradient(135deg, " + colors.cardBorder + ", transparent 50%, " + colors.cardBorderHover + ")",
                     WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                     WebkitMaskComposite: "xor",
                     maskComposite: "exclude",
@@ -395,7 +282,6 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                     transition: "all 0.4s ease"
                   }} />
 
-                  {/* Glow en haut */}
                   {isHovered && (
                     <div style={{
                       position: "absolute",
@@ -404,12 +290,11 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                       transform: "translateX(-50%)",
                       width: "100%",
                       height: "100px",
-                      background: "radial-gradient(ellipse, " + skill.color + "20 0%, transparent 70%)",
+                      background: "radial-gradient(ellipse, " + skill.color + (isDark ? "20" : "30") + " 0%, transparent 70%)",
                       pointerEvents: "none"
                     }} />
                   )}
 
-                  {/* Icon */}
                   <div style={{
                     width: "56px",
                     height: "56px",
@@ -418,7 +303,7 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                     alignItems: "center",
                     justifyContent: "center",
                     borderRadius: "14px",
-                    background: skill.color + "10",
+                    background: skill.color + (isDark ? "10" : "15"),
                     border: "1px solid " + skill.color + "20",
                     position: "relative",
                     transition: "all 0.3s ease",
@@ -438,29 +323,26 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
                     />
                   </div>
 
-                  {/* Name */}
                   <h3 style={{
                     fontSize: "1.2rem",
                     fontWeight: "700",
                     marginBottom: "8px",
-                    color: "#fff",
+                    color: colors.text,
                     transition: "all 0.3s ease",
                     textShadow: isHovered ? "0 0 20px " + skill.color + "40" : "none"
                   }}>
                     {skill.name}
                   </h3>
 
-                  {/* Description */}
                   <p style={{
                     fontSize: "0.85rem",
                     lineHeight: "1.5",
-                    color: "rgba(255,255,255,0.5)",
+                    color: colors.textMuted,
                     margin: 0
                   }}>
                     {skill.description}
                   </p>
 
-                  {/* Petit indicateur de couleur */}
                   <div style={{
                     position: "absolute",
                     bottom: "20px",
@@ -478,8 +360,45 @@ const SkillsSection = forwardRef(function SkillsSection(props, ref) {
             })}
           </motion.div>
         </AnimatePresence>
-
       </div>
+
+      <style>{`
+        @media (max-width: 968px) {
+          #competences {
+            padding: 80px 1.5rem 60px 1.5rem !important;
+          }
+        }
+
+        @media (max-width: 600px) {
+          #competences {
+            padding: 60px 1rem 50px 1rem !important;
+          }
+          .skills-tabs {
+            gap: 0.3rem !important;
+            padding: 0.4rem !important;
+          }
+          .skill-tab {
+            padding: 10px 14px !important;
+            font-size: 0.8rem !important;
+          }
+          .tab-label {
+            display: none;
+          }
+          .skills-grid {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          .skill-card {
+            padding: 20px !important;
+          }
+        }
+
+        @media (max-width: 400px) {
+          .skill-tab {
+            padding: 8px 12px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 });
